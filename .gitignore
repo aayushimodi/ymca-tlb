@@ -31,6 +31,7 @@ hs_err_pid*
 
 # gwt caches and compiled units #
 Y_Manage/war/y_manage/
+Students/war/students/
 gwt-unitCache/
 test-classes/
 www-test/
