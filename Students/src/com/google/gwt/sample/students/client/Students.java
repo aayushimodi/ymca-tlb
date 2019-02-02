@@ -66,7 +66,7 @@ public class Students implements EntryPoint {
 	private Label dateLabel = new Label();
 	private Label notesLabel = new Label();
 	private TextBox dateBox = new TextBox();
-	private TextBox notesBox = new TextBox();
+	private TextArea notesBox = new TextArea();
 
 	private HashMap<String, Student> students = new HashMap<String, Student>();
 	private ArrayList<String> studentsNames = new ArrayList<String>();
@@ -93,13 +93,14 @@ public class Students implements EntryPoint {
 		pBoard.add(membersPanel, "Members");
 		pBoard.add(schedulePanel, "Tasks");
 		pBoard.add(notesPanel, "Notes");
+		pBoard.add(groupsPanel, "Groups");
 		pBoard.selectTab(0);
 		pBoard.setPixelSize(800, 800);
 	}
 	
 	private void makeMeetingTab() {
 		pMeeting.add(attendancePanel, "Attendance");
-		pMeeting.add(groupsPanel, "Groups");
+		//pMeeting.add(groupsPanel, "Groups");
 		pMeeting.selectTab(0);
 		pMeeting.setPixelSize(800, 800);
 		makeGroupPanel();
@@ -130,6 +131,11 @@ public class Students implements EntryPoint {
 		
 		groupNumBox.addKeyDownHandler(new KeyDownHandler() {
 			public void onKeyDown(KeyDownEvent event) {
+				if (event.getNativeKeyCode() == KeyCodes.KEY_BACKSPACE) {
+					groupFlexTable.removeAllRows();
+					groupNumBox.setText(null);
+				}
+				
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 					groupNum = Integer.parseInt(groupNumBox.getText());
 					
@@ -137,8 +143,14 @@ public class Students implements EntryPoint {
 					Random rand = new Random();
 					ArrayList<String> temp = new ArrayList<String>();
 					temp = studentsNames;
+					
+					groupFlexTable.insertRow(0);
 					for (int i = 0; i < groupNum; i++) {
-						for (int k = 0; k < size; k++) {
+						groupFlexTable.setText(0, i, "Group " + (i+1));
+					}
+					
+					for (int i = 0; i < groupNum; i++) {
+						for (int k = 1; k <= size; k++) {
 							int x = rand.nextInt(temp.size()-1);
 							groupFlexTable.setText(k, i, temp.get(x));
 							temp.remove(x);
@@ -147,11 +159,6 @@ public class Students implements EntryPoint {
 					
 					for (int i = 0; i < temp.size(); i++) {
 						groupFlexTable.setText(size, groupNum - 1, temp.get(i));
-					}
-					
-					groupFlexTable.insertRow(0);
-					for (int i = 0; i < groupNum; i++) {
-						groupFlexTable.setText(0, i, "Group " + (i+1));
 					}
 				}
 			}
@@ -329,6 +336,7 @@ public class Students implements EntryPoint {
 		notesLabel.setText("Notes:");
 		notesEnterPanel.add(notesLabel);
 		notesEnterPanel.add(notesBox);
+		notesBox.setSize("155px", "100px");
 		
 		notesBox.addKeyDownHandler(new KeyDownHandler() {
 			public void onKeyDown(KeyDownEvent event) {
@@ -343,7 +351,17 @@ public class Students implements EntryPoint {
 	}
 	
 	private void addNote() {
-		//same as add student and add task
+		int row = notesFlexTable.getRowCount();
+		notesFlexTable.setText(row, 0, dateBox.getText());
+		notesFlexTable.setText(row, 1, notesBox.getText());
+		
+		Button removeNoteButton = new Button("x");
+		removeNoteButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				//ADD CODE
+			}
+		});
+		//studentsFlexTable.setWidget(row, 4, removeNoteButton);
 	}
 
 	private void addStudent() {
