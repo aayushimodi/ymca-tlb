@@ -2,6 +2,8 @@ package org.ymca.tvc.ymanage.server;
 
 import org.ymca.tvc.ymanage.client.CheckinService;
 import org.ymca.tvc.ymanage.shared.FieldVerifier;
+import org.ymca.tvc.ymanage.shared.MeetingAttendanceStatus;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -28,6 +30,10 @@ public class CheckinServiceImpl extends RemoteServiceServlet implements CheckinS
 		DB db = DB.getCurrent();
 		return "Hello, " + input + "!<br><br>I am running " + serverInfo + ".<br><br>It looks like you are using:<br>"
 				+ userAgent;
+	}
+	
+	public MeetingAttendanceStatus getCheckinStatus() {
+		return new MeetingAttendanceStatus("Test Meeting");
 	}
 
 	/**

@@ -1,6 +1,9 @@
 package org.ymca.tvc.ymanage.client;
 
-import org.ymca.tvc.ymanage.shared.FieldVerifier;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.ymca.tvc.ymanage.shared.*;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -8,6 +11,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -37,6 +43,12 @@ public class YManage implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
+		
+		
+		getMeetingStatus();
+		
+		
+		
 		final Button sendButton = new Button("Send");
 		final TextBox nameField = new TextBox();
 		nameField.setText("GWT User");
@@ -142,5 +154,26 @@ public class YManage implements EntryPoint {
 		MyHandler handler = new MyHandler();
 		sendButton.addClickHandler(handler);
 		nameField.addKeyUpHandler(handler);
+	}
+
+	private void getMeetingStatus() {
+		checkinService.getCheckinStatus(new AsyncCallback<MeetingAttendanceStatus>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				// Show the RPC error message to the user
+				
+				Logger logger = Logger.getLogger("");
+			    logger.log(Level.SEVERE, "Error" + caught.toString());
+			}
+			
+			@Override
+			public void onSuccess(MeetingAttendanceStatus result) {
+
+				   Logger logger = Logger.getLogger("");
+			       logger.log(Level.INFO, "Meeting Name: " + result.getMeetingName());
+				
+			}
+		});
+		
 	}
 }
