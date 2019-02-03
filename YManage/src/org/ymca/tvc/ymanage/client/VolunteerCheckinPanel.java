@@ -155,12 +155,8 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 
 			@Override
 			public void onSuccess(MeetingAttendanceStatus result) {
-
-				Logger logger = Logger.getLogger("");
-				logger.log(Level.INFO, "Meeting Id: " + result.getMeetingId());
-
-				processMeetingAttendanceStatus(result);
 				
+				processMeetingAttendanceStatus(result);				
 				statusPanel.clearDisplay();
 			}
 		});		
@@ -177,19 +173,16 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 			
 			this.checkInButton.setEnabled(true);
 			this.nameBox.setEnabled(true);
-		}
+			this.meetingIdLabel.setText("Check in for " + status.getMeetingId());
 		
-		// update the meeting name and the date
-		this.meetingIdLabel.setText("Check in for " + status.getMeetingId());
-		
-		// update the attendance table
-		List<AttendanceTableRow> list = this.attendanceTableDataProvider.getList();
-		list.clear();
+			List<AttendanceTableRow> list = this.attendanceTableDataProvider.getList();
+			list.clear();
 
-		HashMap<String, Date> checkedInStudents = status.getCheckedinStudents();
-		for (String name : checkedInStudents.keySet()) {
-			AttendanceTableRow row = new AttendanceTableRow(name, checkedInStudents.get(name).toString());
-			list.add(row);
+			HashMap<String, Date> checkedInStudents = status.getCheckedinStudents();
+			for (String name : checkedInStudents.keySet()) {
+				AttendanceTableRow row = new AttendanceTableRow(name, checkedInStudents.get(name).toString());
+				list.add(row);
+			}
 		}
 	}
 	
@@ -198,8 +191,7 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 		String volunteerName = this.nameBox.getText();
 		statusPanel.displayInfo("Checking in " + volunteerName + " ...");
 		
-		checkinService.checkInStudent(new AsyncCallback<MeetingAttendanceStatus>() {
-			
+		checkinService.checkInVolunteer(volunteerName, new AsyncCallback<Date>() {
 			
 			@Override
 			public void onFailure(Throwable caught) {
@@ -208,16 +200,19 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 				Logger logger = Logger.getLogger("");
 				logger.log(Level.SEVERE, "Error" + caught.toString());
 				
-				statusPanel.displayError("ERROR in getting information from the server, will retry in a bit!");
+				statusPanel.displayError("ERROR checking in " + nameBox.getText());
 			}
 
 			@Override
-			public void onSuccess(MeetingAttendanceStatus result) {
+			public void onSuccess(Date result) {
 
+				String name = nameBox.getText();
 				Logger logger = Logger.getLogger("");
-				logger.log(Level.INFO, "Meeting Id: " + result.getMeetingId());
+				logger.log(Level.INFO, name + " checked in at "+ result);
 
-				processMeetingAttendanceStatus(result);
+				List<AttendanceTableRow> list = attendanceTableDataProvider.getList();
+				AttendanceTableRow row = new AttendanceTableRow(name, result.toString());
+				list.add(row);
 				
 				statusPanel.clearDisplay();
 			}

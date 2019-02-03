@@ -9,6 +9,7 @@ import com.google.gwt.user.client.rpc.*;
  * The async counterpart of <code>GreetingService</code>.
  */
 public interface CheckinServiceAsync {
+	
 	void checkInVolunteer(String name, AsyncCallback<Date> callback);
 	
 	void getCheckinStatus(AsyncCallback<MeetingAttendanceStatus> callback);

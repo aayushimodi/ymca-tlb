@@ -10,6 +10,7 @@ import com.google.gwt.user.client.rpc.*;
  */
 @RemoteServiceRelativePath("checkin")
 public interface CheckinService extends RemoteService {
+	
 	Date checkInVolunteer(String name);
 	
 	MeetingAttendanceStatus getCheckinStatus();

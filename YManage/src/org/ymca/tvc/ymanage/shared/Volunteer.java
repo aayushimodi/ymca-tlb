@@ -13,6 +13,7 @@ public class Volunteer implements IsSerializable {
 	
 	public Volunteer(String name) {
 		this.name = name;
+		this.attendance = new HashMap<String, Boolean>();
 	}
 
 	public String getName() {

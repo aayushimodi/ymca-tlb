@@ -15,6 +15,9 @@ public class DB {
 	}
 	
 	private DB() {
+		this.volunteers = new HashMap<String, Volunteer>();
+		this.meetings = new HashMap<String, MeetingAttendanceStatus>();
+		this.currentMeeting = null;
 		createTestData();
 	}
 	
@@ -81,13 +84,15 @@ public class DB {
 	}
 	
 	private void createTestData() {
+		
 		addVolunteer(new Volunteer("Aayushi"));
 		addVolunteer(new Volunteer("Shivani"));
-		startMeeting();
-		endMeeting();
-		startMeeting();
-		endMeeting();
 		
+		//endMeeting();
+		startMeeting();
+		
+		endMeeting();
+		startMeeting();
 		
 		
 	}

@@ -20,6 +20,7 @@ public class CheckinServiceImpl extends RemoteServiceServlet implements CheckinS
 	}
 	
 	public MeetingAttendanceStatus getCheckinStatus() {
+		
 		return DB.getCurrent().getCurrentMeeting();
 	}
 }
