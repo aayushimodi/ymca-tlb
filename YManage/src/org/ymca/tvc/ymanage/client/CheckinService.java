@@ -1,5 +1,7 @@
 package org.ymca.tvc.ymanage.client;
 
+import java.util.Date;
+
 import org.ymca.tvc.ymanage.shared.*;
 import com.google.gwt.user.client.rpc.*;
 
@@ -8,7 +10,7 @@ import com.google.gwt.user.client.rpc.*;
  */
 @RemoteServiceRelativePath("checkin")
 public interface CheckinService extends RemoteService {
-	String checkinStudent(String studentName) throws IllegalArgumentException;
+	Date checkInVolunteer(String name);
 	
 	MeetingAttendanceStatus getCheckinStatus();
 }
