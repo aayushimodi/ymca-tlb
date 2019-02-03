@@ -14,6 +14,7 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -35,23 +36,27 @@ public class YManage implements EntryPoint {
 	private static final String SERVER_ERROR = "An error occurred while "
 			+ "attempting to contact the server. Please check your network " + "connection and try again.";
 
+	private static final int REFRESH_INTERVAL = 5000; // 5 seconds
+
 	/**
 	 * Create a remote service proxy to talk to the server-side Greeting service.
 	 */
 	private final CheckinServiceAsync checkinService = GWT.create(CheckinService.class);
 
 	private HomePanel homePanel;
-	private StudentCheckinPanel checkinPanel;
+	private VolunteerCheckinPanel checkinPanel;
 	private BoardLoginPanel boardLoginPanel;
 	private BoardAdminPanel boardAdminPanel;
 
+	private Timer refreshTimer;
+	
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
 
 		homePanel = new HomePanel();
-		checkinPanel = new StudentCheckinPanel(checkinService);
+		checkinPanel = new VolunteerCheckinPanel(checkinService);
 		boardLoginPanel = new BoardLoginPanel(checkinService);
 		boardAdminPanel = new BoardAdminPanel(checkinService);
 		
@@ -59,6 +64,7 @@ public class YManage implements EntryPoint {
   	  	RootLayoutPanel.get().add(checkinPanel);
   	  	
   	  	selectMainPanel();
+  	  	createRefreshTimer();
 	}
 
 	private void selectMainPanel() {
@@ -83,5 +89,20 @@ public class YManage implements EntryPoint {
 				}
 			}
 		});
+	}
+	
+	private void createRefreshTimer() {
+		
+		refreshTimer = new Timer() {
+	        @Override
+	        public void run() {
+	        	refreshData();
+	        }
+	      };
+	      refreshTimer.scheduleRepeating(REFRESH_INTERVAL);
+	}
+	
+	private void refreshData() {
+		this.checkinPanel.refreshData();
 	}
 }

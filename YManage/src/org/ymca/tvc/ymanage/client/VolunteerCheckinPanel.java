@@ -14,36 +14,42 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.*;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.*;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.view.client.ListDataProvider;
 
-public class StudentCheckinPanel extends DockLayoutPanel {
+public class VolunteerCheckinPanel extends DockLayoutPanel {
 
 	private static final String titleHTML = "<h2 align='center'>Teen Volunteer Core Checkin</h2>";
 	
 	private final CheckinServiceAsync checkinService;
 	
 	private ListDataProvider<AttendanceTableRow> attendanceTableDataProvider;
+	private StatusPanel statusPanel;
 	
 	private TextBox nameBox;
 	private Button checkInButton;
-	private HTML statusLabel;
-	private Label meetingNameLabel;
+	private Label meetingIdLabel;
 
 	
-	public StudentCheckinPanel(CheckinServiceAsync checkinService) {
+	public VolunteerCheckinPanel(CheckinServiceAsync checkinService) {
 		
 		super(Unit.EM);
 		this.checkinService = checkinService;
 		this.createComponents();
+		
+		this.getCheckinStatus();
+	}
+	
+	void refreshData() {
+		this.getCheckinStatus();
 	}
 
 	private void createComponents() {
 		
 		this.addNorth(createTitlePanel(), 5);
 		this.add(createContentPanel());
-		this.getCheckinStatus();
 	}
 	
 	private Widget createTitlePanel() {
@@ -72,11 +78,11 @@ public class StudentCheckinPanel extends DockLayoutPanel {
 		
 		FlexTable table = new FlexTable();
 		
-		this.meetingNameLabel = new Label();
-		this.meetingNameLabel.setWidth("100%");
-		this.meetingNameLabel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		this.meetingIdLabel = new Label();
+		this.meetingIdLabel.setWidth("100%");
+		this.meetingIdLabel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		
-		table.setWidget(0, 0, this.meetingNameLabel);
+		table.setWidget(0, 0, this.meetingIdLabel);
 		table.getFlexCellFormatter().setColSpan(0, 0, 2);
 		
 		table.setWidget(1, 0, new Label());
@@ -88,6 +94,12 @@ public class StudentCheckinPanel extends DockLayoutPanel {
 		table.addStyleName("tvc-center-align");
 		
 		return table;
+	}
+	
+	private Widget createStatusPanel() {
+		
+		this.statusPanel = new StatusPanel();
+		return this.statusPanel;
 	}
 	
 	private Widget createAttendanceTable() {
@@ -117,23 +129,10 @@ public class StudentCheckinPanel extends DockLayoutPanel {
 		return table;
 	}
 	
-	private Widget createStatusPanel() {
-		
-		this.statusLabel = new HTML();
-		this.statusLabel.setWidth("100%");
-		this.statusLabel.addStyleName("tvc-status-bar");
-		
-		Grid grid = new Grid(1,1);
-		grid.setWidget(0, 0, this.statusLabel);
-		grid.setWidth("50%");
-		grid.addStyleName("tvc-center-align");
-		
-		return grid;
-	}
-
+	
 	private void getCheckinStatus() {
 		
-		setInfoStatus("Refreshing checking information ...");
+		statusPanel.displayInfo("Refreshing checking information ...");
 		
 		checkinService.getCheckinStatus(new AsyncCallback<MeetingAttendanceStatus>() {
 			
@@ -145,7 +144,7 @@ public class StudentCheckinPanel extends DockLayoutPanel {
 				Logger logger = Logger.getLogger("");
 				logger.log(Level.SEVERE, "Error" + caught.toString());
 				
-				setErrorStatus("ERROR in getting information from the server, will retry in a bit!");
+				statusPanel.displayError("ERROR in getting information from the server, will retry in a bit!");
 			}
 
 			@Override
@@ -156,26 +155,9 @@ public class StudentCheckinPanel extends DockLayoutPanel {
 
 				processMeetingAttendanceStatus(result);
 				
-				clearStatus();
+				statusPanel.clearDisplay();
 			}
 		});		
-	}
-	
-	private void clearStatus() {
-		this.statusLabel.setHTML("");
-	}
-	
-	private void setInfoStatus(String message) {
-		this.statusLabel.setHTML(
-				"<span style=\"color:black\">" + new Date().toString() + ": </span>" +
-				"<span style=\"color:black\">" + message + "</span>");
-		
-	}
-	
-	private void setErrorStatus(String message) {
-		this.statusLabel.setHTML(
-				"<span style=\"color:black\">" + new Date().toString() + ": </span>" +
-				"<span style=\"color:red\">" + message + "</span>");
 	}
 	
 	private void processMeetingAttendanceStatus(MeetingAttendanceStatus status) {
@@ -190,7 +172,7 @@ public class StudentCheckinPanel extends DockLayoutPanel {
 		}
 		
 		// update the meeting name and the date
-		this.meetingNameLabel.setText("Check in for " + status.getMeetingName());
+		this.meetingIdLabel.setText("Check in for " + status.getMeetingName());
 		
 		// update the attendance table
 		List<AttendanceTableRow> list = this.attendanceTableDataProvider.getList();
