@@ -9,12 +9,11 @@ import java.util.logging.Logger;
 
 import org.ymca.tvc.ymanage.shared.*;
 
-import com.google.gwt.core.client.*;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.*;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.*;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.view.client.ListDataProvider;
@@ -75,6 +74,13 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 		this.checkInButton = new Button();
 		this.checkInButton.setText("Check In");
 		this.checkInButton.setWidth("90%");
+		this.checkInButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				checkInVolunteer();
+			}
+
+			
+		});
 		
 		FlexTable table = new FlexTable();
 		
@@ -162,17 +168,19 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 	
 	private void processMeetingAttendanceStatus(MeetingAttendanceStatus status) {
 		
-		// check if the check-in is open or not
-		if(!status.getIsCheckinOpen()) {
+		if (status == null) {
+			
 			this.checkInButton.setEnabled(false);
 			this.nameBox.setEnabled(false);
+			
 		} else {
+			
 			this.checkInButton.setEnabled(true);
 			this.nameBox.setEnabled(true);
 		}
 		
 		// update the meeting name and the date
-		this.meetingIdLabel.setText("Check in for " + status.getMeetingName());
+		this.meetingIdLabel.setText("Check in for " + status.getMeetingId());
 		
 		// update the attendance table
 		List<AttendanceTableRow> list = this.attendanceTableDataProvider.getList();
@@ -183,6 +191,37 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 			AttendanceTableRow row = new AttendanceTableRow(name, checkedInStudents.get(name).toString());
 			list.add(row);
 		}
+	}
+	
+	private void checkInVolunteer() {
+		
+		String volunteerName = this.nameBox.getText();
+		statusPanel.displayInfo("Checking in " + volunteerName + " ...");
+		
+		checkinService.checkInStudent(new AsyncCallback<MeetingAttendanceStatus>() {
+			
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				// Show the RPC error message to the user
+
+				Logger logger = Logger.getLogger("");
+				logger.log(Level.SEVERE, "Error" + caught.toString());
+				
+				statusPanel.displayError("ERROR in getting information from the server, will retry in a bit!");
+			}
+
+			@Override
+			public void onSuccess(MeetingAttendanceStatus result) {
+
+				Logger logger = Logger.getLogger("");
+				logger.log(Level.INFO, "Meeting Id: " + result.getMeetingId());
+
+				processMeetingAttendanceStatus(result);
+				
+				statusPanel.clearDisplay();
+			}
+		});	
 	}
 	
 	private class AttendanceTableRow {
