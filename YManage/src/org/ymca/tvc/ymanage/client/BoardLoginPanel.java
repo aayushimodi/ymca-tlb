@@ -18,6 +18,7 @@ public class BoardLoginPanel extends DockLayoutPanel {
 	private Label passwordLabel = new Label();
 	private Button enterButton = new Button();
 	String password;
+	private Boolean isLoggedIn = false;
 	
 	
 	public BoardLoginPanel(CheckinServiceAsync checkinService) {
@@ -70,5 +71,9 @@ public class BoardLoginPanel extends DockLayoutPanel {
 		});
 		
 		return table;
+	}
+	
+	public Boolean getisLoggedIn() {
+		return isLoggedIn;
 	}
 }

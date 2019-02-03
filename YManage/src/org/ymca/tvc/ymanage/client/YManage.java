@@ -77,15 +77,19 @@ public class YManage implements EntryPoint {
 				logger.log(Level.INFO, "History Token: " + historyToken);
 
 				if (historyToken.equalsIgnoreCase("checkin")) {
-					
+					RootLayoutPanel.get().remove(0);
+					RootLayoutPanel.get().add(checkinPanel);
 				} else if (historyToken.equalsIgnoreCase("login")) {
-				
-					// add logic to go to board if logged in
-				} else if (historyToken.equalsIgnoreCase("board")) {
-					
-					// add logic to go to login if not logged in 
+					if(boardLoginPanel.getisLoggedIn()) {
+						RootLayoutPanel.get().remove(0);
+						RootLayoutPanel.get().add(boardAdminPanel);
+					} else {
+						RootLayoutPanel.get().remove(0);
+						RootLayoutPanel.get().add(boardLoginPanel);
+					}
 				} else {
-					
+					RootLayoutPanel.get().remove(0);
+					RootLayoutPanel.get().add(homePanel);
 				}
 			}
 		});

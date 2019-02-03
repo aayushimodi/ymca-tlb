@@ -1,5 +1,6 @@
 package org.ymca.tvc.ymanage.client;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.dom.client.Style.*;
 import com.google.gwt.event.dom.client.ClickEvent;
