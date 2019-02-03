@@ -20,7 +20,7 @@ import com.google.gwt.view.client.ListDataProvider;
 
 public class StudentCheckinPanel extends DockLayoutPanel {
 
-	private static final String titleHTML = "<h2 align='center'>Teen Volunteer Core Checkin</h2>";
+	private static final String titleHTML = "<h2 align='center'>Teen Volunteer Corps Check In</h2>";
 	
 	private final CheckinServiceAsync checkinService;
 	
@@ -152,7 +152,7 @@ public class StudentCheckinPanel extends DockLayoutPanel {
 			public void onSuccess(MeetingAttendanceStatus result) {
 
 				Logger logger = Logger.getLogger("");
-				logger.log(Level.INFO, "Meeting Name: " + result.getMeetingName());
+				logger.log(Level.INFO, "Meeting Id: " + result.getMeetingId());
 
 				processMeetingAttendanceStatus(result);
 				
@@ -190,7 +190,7 @@ public class StudentCheckinPanel extends DockLayoutPanel {
 		}
 		
 		// update the meeting name and the date
-		this.meetingNameLabel.setText("Check in for " + status.getMeetingName());
+		this.meetingNameLabel.setText("Check in for " + status.getMeetingId());
 		
 		// update the attendance table
 		List<AttendanceTableRow> list = this.attendanceTableDataProvider.getList();

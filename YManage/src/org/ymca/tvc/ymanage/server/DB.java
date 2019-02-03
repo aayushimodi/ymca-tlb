@@ -1,11 +1,96 @@
 package org.ymca.tvc.ymanage.server;
 
+import org.ymca.tvc.ymanage.shared.*;
+import java.util.*;
+
 public class DB {
 	
 	private static final DB current = new DB();
+	private HashMap<String, Volunteer> volunteers;
+	private HashMap<String, MeetingAttendanceStatus> meetings;
+	private MeetingAttendanceStatus currentMeeting;
 	
 	static DB getCurrent() {
 		return current; 
+	}
+	
+	private DB() {
+		createTestData();
+	}
+	
+	private Date checkInVolunteer(String name) {
+		if (currentMeeting == null) {
+			//error
+		} 
+		
+		
+		if(!volunteers.containsKey(name)) {
+				//error
+		} 
+		
+		if(currentMeeting.getCheckedinStudents().containsKey(name)) {
+					//error
+		}
+		
+		Date date = new Date();
+		volunteers.get(name).setAttendance(date.toString(), true);
+		currentMeeting.getCheckedinStudents().put(name, date);
+		
+		
+		return date;
+	}
+	
+	private void startMeeting() {
+		if (!(currentMeeting == null)) {
+			//error
+		}
+		
+		currentMeeting = new MeetingAttendanceStatus();
+		
+		for(String v: volunteers.keySet()) {
+			volunteers.get(v).setAttendance(currentMeeting.getMeetingId(), false);
+		}
+	}
+	
+	private void endMeeting() {
+		if(currentMeeting == null) {
+			//error
+		}
+		
+		meetings.put(currentMeeting.getMeetingId(), currentMeeting);
+		currentMeeting = null;
+	}
+	
+	private MeetingAttendanceStatus getCurrentMeeting() {
+		return currentMeeting;
+	}
+	
+	private void addVolunteer(Volunteer v) {
+		volunteers.put(v.getName(), v);
+	}
+	
+	private void removeVolunteer(Volunteer v) {
+		volunteers.remove(v.getName());
+	}
+	
+	private Volunteer getVolunteer(String name) {
+		return volunteers.get(name);
+	}
+	
+	private HashMap<String, Volunteer> getAllVolunteers() {
+		return volunteers;
+	}
+	
+	private void createTestData() {
+		addVolunteer(new Volunteer("Aayushi"));
+		addVolunteer(new Volunteer("Shivani"));
+		startMeeting();
+		endMeeting();
+		startMeeting();
+		endMeeting();
+		
+		
+		
 	}
 	
 	/*
