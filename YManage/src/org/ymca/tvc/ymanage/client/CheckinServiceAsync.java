@@ -1,5 +1,7 @@
 package org.ymca.tvc.ymanage.client;
 
+import java.util.Date;
+
 import org.ymca.tvc.ymanage.shared.*;
 import com.google.gwt.user.client.rpc.*;
 
@@ -7,7 +9,7 @@ import com.google.gwt.user.client.rpc.*;
  * The async counterpart of <code>GreetingService</code>.
  */
 public interface CheckinServiceAsync {
-	void checkinStudent(String studentName, AsyncCallback<String> callback) throws IllegalArgumentException;
+	void checkInVolunteer(String name, AsyncCallback<Date> callback);
 	
 	void getCheckinStatus(AsyncCallback<MeetingAttendanceStatus> callback);
 }

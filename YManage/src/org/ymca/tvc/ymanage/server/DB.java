@@ -18,7 +18,7 @@ public class DB {
 		createTestData();
 	}
 	
-	private Date checkInVolunteer(String name) {
+	synchronized Date checkInVolunteer(String name) {
 		if (currentMeeting == null) {
 			//error
 		} 
@@ -36,11 +36,10 @@ public class DB {
 		volunteers.get(name).setAttendance(date.toString(), true);
 		currentMeeting.getCheckedinStudents().put(name, date);
 		
-		
 		return date;
 	}
 	
-	private void startMeeting() {
+	synchronized void startMeeting() {
 		if (!(currentMeeting == null)) {
 			//error
 		}
@@ -52,7 +51,7 @@ public class DB {
 		}
 	}
 	
-	private void endMeeting() {
+	public synchronized void endMeeting() {
 		if(currentMeeting == null) {
 			//error
 		}
@@ -61,23 +60,23 @@ public class DB {
 		currentMeeting = null;
 	}
 	
-	private MeetingAttendanceStatus getCurrentMeeting() {
+	public synchronized MeetingAttendanceStatus getCurrentMeeting() {
 		return currentMeeting;
 	}
 	
-	private void addVolunteer(Volunteer v) {
+	public synchronized void addVolunteer(Volunteer v) {
 		volunteers.put(v.getName(), v);
 	}
 	
-	private void removeVolunteer(Volunteer v) {
+	public synchronized void removeVolunteer(Volunteer v) {
 		volunteers.remove(v.getName());
 	}
 	
-	private Volunteer getVolunteer(String name) {
+	public synchronized Volunteer getVolunteer(String name) {
 		return volunteers.get(name);
 	}
 	
-	private HashMap<String, Volunteer> getAllVolunteers() {
+	public synchronized HashMap<String, Volunteer> getAllVolunteers() {
 		return volunteers;
 	}
 	
