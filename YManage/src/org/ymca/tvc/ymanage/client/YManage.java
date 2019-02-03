@@ -61,7 +61,7 @@ public class YManage implements EntryPoint {
 		boardAdminPanel = new BoardAdminPanel(checkinService);
 		
 	
-  	  	RootLayoutPanel.get().add(checkinPanel);
+  	  	RootLayoutPanel.get().add(homePanel);
   	  	
   	  	selectMainPanel();
   	  	createRefreshTimer();
