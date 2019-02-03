@@ -21,7 +21,7 @@ import com.google.gwt.view.client.ListDataProvider;
 
 public class VolunteerCheckinPanel extends DockLayoutPanel {
 
-	private static final String titleHTML = "<h2 align='center'>Teen Volunteer Core Checkin</h2>";
+	private static final String titleHTML = "<h2 align='center'>Teen Volunteer Corps Check In</h2>";
 	
 	private final CheckinServiceAsync checkinService;
 	
@@ -151,7 +151,7 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 			public void onSuccess(MeetingAttendanceStatus result) {
 
 				Logger logger = Logger.getLogger("");
-				logger.log(Level.INFO, "Meeting Name: " + result.getMeetingName());
+				logger.log(Level.INFO, "Meeting Id: " + result.getMeetingId());
 
 				processMeetingAttendanceStatus(result);
 				

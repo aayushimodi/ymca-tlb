@@ -33,7 +33,7 @@ public class CheckinServiceImpl extends RemoteServiceServlet implements CheckinS
 	}
 	
 	public MeetingAttendanceStatus getCheckinStatus() {
-		return new MeetingAttendanceStatus("Test Meeting");
+		return new MeetingAttendanceStatus();
 	}
 
 	/**

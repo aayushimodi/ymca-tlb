@@ -6,38 +6,21 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class MeetingAttendanceStatus implements IsSerializable {
 
-	private String meetingName;
-	
-	private boolean isCheckinOpen;
-	
-	private Date meetingDate;
-	
+	private String meetingId;
 	private HashMap<String, Date> checkedinStudents;
+	private static int count = 0;
 
 	public MeetingAttendanceStatus() {
-		
-	}
-	
-	public MeetingAttendanceStatus(String meetingName) {
-		this.meetingName = meetingName;
-		this.isCheckinOpen = false;
-		this.meetingDate = new Date();
+		Calendar c = new GregorianCalendar();
+		this.meetingId = (count++) + "_" + c.get(Calendar.MONTH) + "_" + c.get(Calendar.DAY_OF_MONTH) + "_" + c.get(Calendar.YEAR);
 		this.checkedinStudents = new HashMap<String, Date>();
 		this.checkedinStudents.put("Aayushi Modi", new Date());
 		this.checkedinStudents.put("Shivani Modi", new Date());
 	}
 	
 	
-	public String getMeetingName() {
-		return this.meetingName;
-	}
-	
-	public Date getMeetingDate() {
-		return this.meetingDate;
-	}
-	
-	public boolean getIsCheckinOpen() {
-		return this.isCheckinOpen;
+	public String getMeetingId() {
+		return this.meetingId;
 	}
 	
 	public HashMap<String, Date> getCheckedinStudents() {
