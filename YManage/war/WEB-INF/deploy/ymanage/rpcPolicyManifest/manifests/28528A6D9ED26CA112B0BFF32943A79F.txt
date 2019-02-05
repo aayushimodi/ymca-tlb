@@ -1,0 +1,2 @@
+serviceClass: org.ymca.tvc.ymanage.client.CheckinService
+path: EA991C3D3F63562781A45761EC3CDC49.gwt.rpc

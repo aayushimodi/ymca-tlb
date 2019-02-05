@@ -1,19 +1,12 @@
 package org.ymca.tvc.ymanage.client;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.dom.client.Style.*;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.*;
 
 public class HomePanel extends DockLayoutPanel {
 
 	private static final String titleHTML = "<h2 align='center'>Welcome YMCA Teen Volunteer Corps!</h2>";
-	private Button checkInButton = new Button();
-	private Button boardButton = new Button();
 
 	public HomePanel() {
 		super(Unit.EM);
@@ -41,14 +34,25 @@ public class HomePanel extends DockLayoutPanel {
 
 	private Widget createButtonPanel() {
 		
-		FlexTable table = new FlexTable();
+		Button checkInButton = new Button();
 		checkInButton.setText("Volunteer Check In");
 		checkInButton.setWidth("100%");
+		checkInButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				ClientUtility.goToHash("checkin");
+			}
+		});
 		
+		Button boardButton = new Button();
 		boardButton.setText("Board Members");
 		boardButton.setWidth("100%");
+		boardButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				ClientUtility.goToHash("board");
+			}	
+		});
 		
-		
+		FlexTable table = new FlexTable();
 		table.setWidget(0, 0, checkInButton);
 		table.setWidget(1, 0, new HTML());
 		table.setWidget(2, 0, new HTML());
@@ -57,17 +61,6 @@ public class HomePanel extends DockLayoutPanel {
 		table.setWidth("50%");
 		table.addStyleName("tvc-center-align");
 		
-		this.checkInButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				ClientUtility.goToHash("checkin");
-			}
-		});
-		
-		this.boardButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				ClientUtility.goToHash("board");
-			}	
-		});
 		
 		return table;
 	}
