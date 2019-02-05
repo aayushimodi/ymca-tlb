@@ -14,4 +14,6 @@ public interface CheckinService extends RemoteService {
 	Date checkInVolunteer(String name);
 	
 	MeetingAttendanceStatus getCheckinStatus();
+	
+	void addVolunteer(Volunteer v);
 }

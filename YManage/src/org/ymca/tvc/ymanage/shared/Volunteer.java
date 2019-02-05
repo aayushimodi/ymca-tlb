@@ -11,6 +11,10 @@ public class Volunteer implements IsSerializable {
 	String age;
 	HashMap<String, Boolean> attendance;
 	
+	public Volunteer() {
+		
+	}
+	
 	public Volunteer(String name) {
 		this.name = name;
 		this.attendance = new HashMap<String, Boolean>();

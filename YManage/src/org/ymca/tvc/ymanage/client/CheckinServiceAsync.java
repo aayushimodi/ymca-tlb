@@ -13,4 +13,6 @@ public interface CheckinServiceAsync {
 	void checkInVolunteer(String name, AsyncCallback<Date> callback);
 	
 	void getCheckinStatus(AsyncCallback<MeetingAttendanceStatus> callback);
+
+	void addVolunteer(Volunteer v, AsyncCallback<Void> callback);
 }
