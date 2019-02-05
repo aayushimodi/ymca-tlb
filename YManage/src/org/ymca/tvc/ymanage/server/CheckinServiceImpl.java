@@ -5,6 +5,7 @@ import java.util.Date;
 import org.ymca.tvc.ymanage.client.CheckinService;
 import org.ymca.tvc.ymanage.shared.FieldVerifier;
 import org.ymca.tvc.ymanage.shared.MeetingAttendanceStatus;
+import org.ymca.tvc.ymanage.shared.Volunteer;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -20,7 +21,11 @@ public class CheckinServiceImpl extends RemoteServiceServlet implements CheckinS
 	}
 	
 	public MeetingAttendanceStatus getCheckinStatus() {
-		
 		return DB.getCurrent().getCurrentMeeting();
+	}
+
+	public void addVolunteer(Volunteer v) {
+		DB db = DB.getCurrent();
+		db.addVolunteer(v);	
 	}
 }
