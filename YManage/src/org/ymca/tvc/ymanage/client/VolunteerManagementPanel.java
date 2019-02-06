@@ -42,7 +42,6 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 	}
 
 	private void createComponents() {
-
 		this.addSouth(createStatusPanel(), 5);
 		this.addWest(createAddEditPanel(), 18);
 		this.add(createVolunteerTable());

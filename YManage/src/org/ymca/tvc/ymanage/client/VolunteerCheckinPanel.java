@@ -26,8 +26,7 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 	
 	private ListDataProvider<AttendanceTableRow> attendanceTableDataProvider;
 	private StatusPanel statusPanel;
-	
-	private TextBox nameBox;
+	private TextBox nameBox = new TextBox();
 	private Button checkInButton;
 	private Label meetingIdLabel;
 
@@ -67,16 +66,14 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 	}
 	
 	private Widget createCheckinInputPanel() {
-		
-		this.nameBox = new TextBox();
 		this.nameBox.setWidth("90%");
-		
 		this.checkInButton = new Button();
 		this.checkInButton.setText("Check In");
 		this.checkInButton.setWidth("90%");
 		this.checkInButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				checkInVolunteer();
+				nameBox.setText("");
 			}
 
 			

@@ -29,6 +29,7 @@ public class BoardAdminPanel extends DockLayoutPanel {
 	private Widget createContentPanel() {
 		TabLayoutPanel tabPanel = new TabLayoutPanel(2, Unit.EM);
 		tabPanel.add(new VolunteerManagementPanel(yManageService), "Volunteers");
+		tabPanel.add(new MeetingManagementPanel(yManageService), "Meeting");
 		tabPanel.selectTab(0);
 		
 		return tabPanel;
