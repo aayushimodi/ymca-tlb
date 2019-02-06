@@ -37,7 +37,7 @@ public class YManage implements EntryPoint {
 		boardLoginPanel = new BoardLoginPanel(checkinService);
 		boardAdminPanel = new BoardAdminPanel(checkinService);
 
-		RootLayoutPanel.get().add(homePanel);
+		RootLayoutPanel.get().add(new VolunteerGroupsPanel(checkinService));
 
 		selectMainPanel();
 		createRefreshTimer();
@@ -57,7 +57,6 @@ public class YManage implements EntryPoint {
 					RootLayoutPanel.get().add(checkinPanel);
 
 				} else if (historyToken.equalsIgnoreCase("board")) {
-
 					if (boardLoginPanel.getisLoggedIn()) {
 						RootLayoutPanel.get().remove(0);
 						RootLayoutPanel.get().add(boardAdminPanel);

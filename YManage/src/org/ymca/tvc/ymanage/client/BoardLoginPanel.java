@@ -1,5 +1,8 @@
 package org.ymca.tvc.ymanage.client;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.ymca.tvc.ymanage.shared.*;
 
 import com.google.gwt.core.client.*;
@@ -13,10 +16,8 @@ public class BoardLoginPanel extends DockLayoutPanel {
 	private final CheckinServiceAsync checkinService;
 	private static final String titleHTML = "<h2 align='center'>YMCA TVC Board Login</h2>";
 	
-	private VerticalPanel passwordPanel = new VerticalPanel();
 	private PasswordTextBox passwordBox = new PasswordTextBox();
 	private Label passwordLabel = new Label();
-	private Button enterButton = new Button();
 	String password;
 	private Boolean isLoggedIn = false;
 	
@@ -62,7 +63,10 @@ public class BoardLoginPanel extends DockLayoutPanel {
 					password = passwordBox.getText();
 					
 					if(password.equals("ymca")) {
-						
+						isLoggedIn = true;
+						Logger logger = Logger.getLogger("");
+						logger.log(Level.INFO, "Password: " + password + "Logged in: " + isLoggedIn);
+						ClientUtility.goToHash("boardLoggedIn");
 					} else {
 						//ERROR
 					}
