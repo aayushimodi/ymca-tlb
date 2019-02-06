@@ -21,10 +21,9 @@ public class BoardLoginPanel extends DockLayoutPanel {
 	String password;
 	private Boolean isLoggedIn = false;
 	
-	public BoardLoginPanel(CheckinServiceAsync checkinService, BoardAdminPanel boardAdminPanel) {
+	public BoardLoginPanel(CheckinServiceAsync checkinService) {
 		super(Unit.EM);
 		this.checkinService = checkinService;
-		this.boardAdminPanel = boardAdminPanel;
 		this.createComponents();
 	}
 	
@@ -62,8 +61,7 @@ public class BoardLoginPanel extends DockLayoutPanel {
 					password = passwordBox.getText();
 					
 					if(password.equals("ymca")) {
-						RootLayoutPanel.get().remove(0);
-						RootLayoutPanel.get().add(boardAdminPanel);
+						
 					} else {
 						//ERROR
 					}
