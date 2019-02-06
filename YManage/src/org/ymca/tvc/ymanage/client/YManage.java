@@ -18,7 +18,7 @@ public class YManage implements EntryPoint {
 
 	private static final int REFRESH_INTERVAL = 5000; // 5 seconds
 
-	private final CheckinServiceAsync checkinService = GWT.create(CheckinService.class);
+	private final YManageServiceAsync yManageService = GWT.create(YManageService.class);
 
 	private HomePanel homePanel;
 	private VolunteerCheckinPanel checkinPanel;
@@ -32,8 +32,8 @@ public class YManage implements EntryPoint {
 	public void onModuleLoad() {
 
 		homePanel = new HomePanel();
-		checkinPanel = new VolunteerCheckinPanel(checkinService);
-		boardAdminPanel = new BoardAdminPanel(checkinService);
+		checkinPanel = new VolunteerCheckinPanel(yManageService);
+		boardAdminPanel = new BoardAdminPanel(yManageService);
 	
 		RootLayoutPanel.get().add(homePanel);
 

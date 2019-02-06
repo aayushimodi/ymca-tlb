@@ -1,33 +1,26 @@
 package org.ymca.tvc.ymanage.client;
 
-import java.util.Date;
-import java.util.List;
+import org.ymca.tvc.ymanage.shared.*;
+
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.ymca.tvc.ymanage.shared.*;
-
-import com.google.gwt.core.client.*;
-import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.Style.*;
 import com.google.gwt.event.dom.client.*;
-import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.cellview.client.*;
 import com.google.gwt.user.client.rpc.*;
 import com.google.gwt.user.client.ui.*;
-import com.google.gwt.view.client.DefaultSelectionModel;
-import com.google.gwt.view.client.ListDataProvider;
-import com.google.gwt.view.client.SelectionChangeEvent;
-import com.google.gwt.view.client.SelectionModel;
-import com.google.gwt.view.client.SingleSelectionModel;
+import com.google.gwt.view.client.*;
 
 public class VolunteerManagementPanel extends DockLayoutPanel {
 
-	private final CheckinServiceAsync checkinService;
+	private final YManageServiceAsync yManageService;
 
 	// table that shows the list of the volunteers
-	private ListDataProvider<VolunteersTableRow> volunteersTableDataProvider;
-	private CellTable<VolunteersTableRow> volunteersTable;
-	private SingleSelectionModel<VolunteersTableRow> volunteersTableSelectionModel;
+	private ListDataProvider<VolunteerInfo> volunteersTableDataProvider;
+	private CellTable<VolunteerInfo> volunteersTable;
+	private SingleSelectionModel<VolunteerInfo> volunteersTableSelectionModel;
 
 	// add or edit volunteer information
 	private TextBox nameTextBox = new TextBox();
@@ -35,25 +28,24 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 	private TextBox ageTextBox = new TextBox();
 	private TextBox schoolTextBox = new TextBox();
 	private Button addVolunteerButton = new Button("Add");
-
+	private VolunteerInfo newVInfo;
+	
 	private StatusPanel statusPanel;
 
-	public VolunteerManagementPanel(CheckinServiceAsync checkinService) {
+	public VolunteerManagementPanel(YManageServiceAsync yManageService) {
 		super(Unit.EM);
-		this.checkinService = checkinService;
+		this.yManageService = yManageService;
 		this.createComponents();
 		this.setWidth("75%");
 		this.addStyleName("tvc-center-align");
+		this.getVolunteers();
 	}
 
 	private void createComponents() {
 
 		this.addSouth(createStatusPanel(), 5);
-
-		// DockLayoutPanel p = new DockLayoutPanel(Unit.EM);
 		this.addWest(createAddEditPanel(), 18);
 		this.add(createVolunteerTable());
-		// this.add(p);
 	}
 
 	private Widget createAddEditPanel() {
@@ -95,27 +87,27 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 
 	private Widget createVolunteerTable() {
 
-		TextColumn<VolunteersTableRow> nameCol = new TextColumn<VolunteersTableRow>() {
-			public String getValue(VolunteersTableRow row) {
-				return row.name;
+		TextColumn<VolunteerInfo> nameCol = new TextColumn<VolunteerInfo>() {
+			public String getValue(VolunteerInfo row) {
+				return row.getName();
 			}
 		};
 
-		TextColumn<VolunteersTableRow> emailCol = new TextColumn<VolunteersTableRow>() {
-			public String getValue(VolunteersTableRow row) {
-				return row.email;
+		TextColumn<VolunteerInfo> emailCol = new TextColumn<VolunteerInfo>() {
+			public String getValue(VolunteerInfo row) {
+				return row.getEmail();
 			}
 		};
 
-		TextColumn<VolunteersTableRow> ageCol = new TextColumn<VolunteersTableRow>() {
-			public String getValue(VolunteersTableRow row) {
-				return row.age;
+		TextColumn<VolunteerInfo> ageCol = new TextColumn<VolunteerInfo>() {
+			public String getValue(VolunteerInfo row) {
+				return row.getAge();
 			}
 		};
 
-		TextColumn<VolunteersTableRow> schoolCol = new TextColumn<VolunteersTableRow>() {
-			public String getValue(VolunteersTableRow row) {
-				return row.school;
+		TextColumn<VolunteerInfo> schoolCol = new TextColumn<VolunteerInfo>() {
+			public String getValue(VolunteerInfo row) {
+				return row.getSchool();
 			}
 		};
 
@@ -125,20 +117,20 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 		volunteersTable.addColumn(ageCol, "Age");
 		volunteersTable.addColumn(schoolCol, "School");
 
-		volunteersTableDataProvider = new ListDataProvider<VolunteersTableRow>();
+		volunteersTableDataProvider = new ListDataProvider<VolunteerInfo>();
 		volunteersTableDataProvider.addDataDisplay(volunteersTable);
 
 		volunteersTable.setWidth("100%");
 		volunteersTable.addStyleName("tvc-center-align");
 
-		volunteersTableSelectionModel = new SingleSelectionModel<VolunteersTableRow>();
+		volunteersTableSelectionModel = new SingleSelectionModel<VolunteerInfo>();
 		volunteersTable.setSelectionModel(volunteersTableSelectionModel);
 
 		volunteersTableSelectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 			public void onSelectionChange(SelectionChangeEvent event) {
-				VolunteersTableRow row = volunteersTableSelectionModel.getSelectedObject();
+				VolunteerInfo row = volunteersTableSelectionModel.getSelectedObject();
 				if (row != null) {
-					List<VolunteersTableRow> list = volunteersTableDataProvider.getList();
+					List<VolunteerInfo> list = volunteersTableDataProvider.getList();
 					list.remove(row);
 				}
 			}
@@ -165,12 +157,13 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 		final String school = schoolTextBox.getText();
 		nameTextBox.setFocus(true);
 
-		Volunteer v = new Volunteer(name);
-		v.setEmail(email);
-		v.setAge(age);
-		v.setSchool(school);
+		// TODO: add field verifier on server and on client
+		newVInfo = new VolunteerInfo(name);
+		newVInfo.setEmail(email);
+		newVInfo.setAge(age);
+		newVInfo.setSchool(school);
 
-		checkinService.addVolunteer(v, new AsyncCallback<Void>() {
+		yManageService.addVolunteer(newVInfo, new AsyncCallback<Void>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -186,11 +179,10 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 
 			public void onSuccess(Void result) {
 				Logger logger = Logger.getLogger("");
-				logger.log(Level.INFO, name + " added");
+				logger.log(Level.INFO, newVInfo.getName() + " added");
 
-				List<VolunteersTableRow> list = volunteersTableDataProvider.getList();
-				VolunteersTableRow row = new VolunteersTableRow(name, email, age, school);
-				list.add(row);
+				List<VolunteerInfo> list = volunteersTableDataProvider.getList();
+				list.add(newVInfo);
 
 				nameTextBox.setText("");
 				emailTextBox.setText("");
@@ -202,17 +194,28 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 		});
 	}
 
-	class VolunteersTableRow {
-		public String name;
-		public String email;
-		public String age;
-		public String school;
+	
+	private void getVolunteers() {
+		
+		// statusPanel.displayInfo("Refreshing checking information ...");
+		
+		yManageService.getAllVolunteerInfo(new AsyncCallback<ArrayList<VolunteerInfo>>() {
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				Logger logger = Logger.getLogger("");
+				logger.log(Level.SEVERE, "Error" + caught.toString());
+			}
+		
 
-		public VolunteersTableRow(String name, String email, String age, String school) {
-			this.name = name;
-			this.email = email;
-			this.age = age;
-			this.school = school;
-		}
+			@Override
+			public void onSuccess(ArrayList<VolunteerInfo> result) {
+				List<VolunteerInfo> list = volunteersTableDataProvider.getList();
+				list.clear();
+				for(VolunteerInfo vInfo : result) {
+					list.add(vInfo);
+				}
+			}
+		});		
 	}
 }

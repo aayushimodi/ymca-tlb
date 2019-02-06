@@ -5,13 +5,13 @@ import com.google.gwt.user.client.ui.*;
 
 public class BoardAdminPanel extends DockLayoutPanel {
 
-	private final CheckinServiceAsync checkinService;
+	private final YManageServiceAsync yManageService;
 	private static final String titleHTML = "<h2 align='center'>YMCA TVC Board Admin</h2>";
 
 	
-	public BoardAdminPanel(CheckinServiceAsync checkinService) {
+	public BoardAdminPanel(YManageServiceAsync yManageService) {
 		super(Unit.EM);
-		this.checkinService = checkinService;
+		this.yManageService = yManageService;
 		this.createComponents();
 	}
 
@@ -28,7 +28,7 @@ public class BoardAdminPanel extends DockLayoutPanel {
 
 	private Widget createContentPanel() {
 		TabLayoutPanel tabPanel = new TabLayoutPanel(2, Unit.EM);
-		tabPanel.add(new VolunteerManagementPanel(checkinService), "Volunteers");
+		tabPanel.add(new VolunteerManagementPanel(yManageService), "Volunteers");
 		tabPanel.selectTab(0);
 		
 		return tabPanel;

@@ -43,14 +43,14 @@ public class StatusPanel extends Grid {
 	
 	void displayInfo(String message) {
 		this.statusLabel.setHTML(
-				"<span style=\"color:black\">" + new Date().toString() + ": </span>" +
+				//"<span style=\"color:black\">" + new Date().toString() + ": </span>" +
 				"<span style=\"color:black\">" + message + "</span>");
 		
 	}
 	
 	void displayError(String message) {
 		this.statusLabel.setHTML(
-				"<span style=\"color:black\">" + new Date().toString() + ": </span>" +
+				//"<span style=\"color:black\">" + new Date().toString() + ": </span>" +
 				"<span style=\"color:red\">" + message + "</span>");
 	}
 }

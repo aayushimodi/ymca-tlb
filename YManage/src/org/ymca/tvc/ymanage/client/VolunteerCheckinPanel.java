@@ -22,7 +22,7 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 
 	private static final String titleHTML = "<h2 align='center'>Teen Volunteer Corps Check In</h2>";
 	
-	private final CheckinServiceAsync checkinService;
+	private final YManageServiceAsync yManageService;
 	
 	private ListDataProvider<AttendanceTableRow> attendanceTableDataProvider;
 	private StatusPanel statusPanel;
@@ -32,10 +32,10 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 	private Label meetingIdLabel;
 
 	
-	public VolunteerCheckinPanel(CheckinServiceAsync checkinService) {
+	public VolunteerCheckinPanel(YManageServiceAsync yManageService) {
 		
 		super(Unit.EM);
-		this.checkinService = checkinService;
+		this.yManageService = yManageService;
 		this.createComponents();
 		
 		this.getCheckinStatus();
@@ -140,7 +140,7 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 		
 		statusPanel.displayInfo("Refreshing checking information ...");
 		
-		checkinService.getCheckinStatus(new AsyncCallback<MeetingAttendanceStatus>() {
+		yManageService.getCheckinStatus(new AsyncCallback<MeetingAttendanceStatus>() {
 			
 			@Override
 			public void onFailure(Throwable caught) {
@@ -187,7 +187,7 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 		String volunteerName = this.nameBox.getText();
 		statusPanel.displayInfo("Checking in " + volunteerName + " ...");
 		
-		checkinService.checkInVolunteer(volunteerName, new AsyncCallback<Date>() {
+		yManageService.checkInVolunteer(volunteerName, new AsyncCallback<Date>() {
 			
 			@Override
 			public void onFailure(Throwable caught) {

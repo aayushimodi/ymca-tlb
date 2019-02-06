@@ -36,7 +36,7 @@ public class DB {
 		}
 		
 		Date date = new Date();
-		volunteers.get(name).setAttendance(date.toString(), true);
+		volunteers.get(name).markAttendance(date.toString(), true);
 		currentMeeting.getCheckedinStudents().put(name, date);
 		
 		return date;
@@ -50,7 +50,7 @@ public class DB {
 		currentMeeting = new MeetingAttendanceStatus();
 		
 		for(String v: volunteers.keySet()) {
-			volunteers.get(v).setAttendance(currentMeeting.getMeetingId(), false);
+			volunteers.get(v).markAttendance(currentMeeting.getMeetingId(), false);
 		}
 	}
 	
@@ -67,30 +67,45 @@ public class DB {
 		return currentMeeting;
 	}
 	
-	public synchronized void addVolunteer(Volunteer v) {
-		if(volunteers.containsKey(v.getName())) {
-			throw new YException("The volunteer " + v.getName() + " already exists.");
+	public synchronized void addVolunteer(VolunteerInfo info) {
+		if (volunteers.containsKey(info.getName())) {
+			throw new YException("The volunteer " + info.getName() + " already exists.");
 		} else {
-			volunteers.put(v.getName(), v);
+			volunteers.put(info.getName(), new Volunteer(info));
 		}
 	}
 	
-	public synchronized void removeVolunteer(Volunteer v) {
-		volunteers.remove(v.getName());
+	public synchronized void removeVolunteer(String name) {
+		if (volunteers.containsKey(name)) {
+			volunteers.remove(name);
+		} else {
+			throw new YException("The volunteer " + name + " does not exists.");
+		}
 	}
 	
-	public synchronized Volunteer getVolunteer(String name) {
-		return volunteers.get(name);
+
+	public HashMap<String, Boolean> getAttendanceRecord(String name) {
+		if (volunteers.containsKey(name)) {
+			return volunteers.get(name).getAttendance();
+		} else {
+			throw new YException("The volunteer " + name + " does not exists.");
+		}
 	}
 	
-	public synchronized HashMap<String, Volunteer> getAllVolunteers() {
-		return volunteers;
+	public synchronized ArrayList<VolunteerInfo> getAllVolunteerInfo() {
+		
+		ArrayList<VolunteerInfo> result = new ArrayList<VolunteerInfo>();
+		for(String k : volunteers.keySet()) {
+			result.add(volunteers.get(k).getInfo());
+		}
+		
+		return result;
 	}
 	
 	private void createTestData() {
 		
-		addVolunteer(new Volunteer("Aayushi"));
-		addVolunteer(new Volunteer("Shivani"));
+		addVolunteer(new VolunteerInfo("Aayushi"));
+		addVolunteer(new VolunteerInfo("Shivani"));
 		
 		//endMeeting();
 		startMeeting();
@@ -100,7 +115,7 @@ public class DB {
 		
 		
 	}
-	
+
 	/*
 	 *  Checkin Student
 	 *  

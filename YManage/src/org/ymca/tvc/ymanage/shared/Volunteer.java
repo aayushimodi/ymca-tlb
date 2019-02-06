@@ -5,57 +5,31 @@ import java.util.HashMap;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class Volunteer implements IsSerializable {
-	String name;
-	String email;
-	String school;
-	String age;
+	VolunteerInfo info;
 	HashMap<String, Boolean> attendance;
 	
 	public Volunteer() {
 		
 	}
 	
-	public Volunteer(String name) {
-		this.name = name;
+	public Volunteer(VolunteerInfo info) {
+		this.info = info;
 		this.attendance = new HashMap<String, Boolean>();
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getSchool() {
-		return school;
-	}
-
-	public void setSchool(String school) {
-		this.school = school;
-	}
-
-	public String getAge() {
-		return age;
-	}
-
-	public void setAge(String age) {
-		this.age = age;
+	public VolunteerInfo getInfo() {
+		return info;
 	}
 	
-	public void setAttendance(String meetingId, Boolean status) {
+	public void setInfo(VolunteerInfo info) {
+		this.info = info;
+	}
+
+	public HashMap<String, Boolean> getAttendance() {
+		return this.attendance;
+	}
+	
+	public void markAttendance(String meetingId, Boolean status) {
 		attendance.put(meetingId, status);
 	}
-	
-	
-	
 }

@@ -1,19 +1,20 @@
 package org.ymca.tvc.ymanage.client;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.ymca.tvc.ymanage.shared.*;
-
-import com.google.gwt.core.client.*;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.*;
-import com.google.gwt.user.client.rpc.*;
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.Widget;
 
 public class BoardLoginPanel extends DockLayoutPanel {
 
-	private final CheckinServiceAsync checkinService;
+	private final YManageServiceAsync yManageService;
 	private static final String titleHTML = "<h2 align='center'>YMCA TVC Board Login</h2>";
 	
 	private PasswordTextBox passwordBox = new PasswordTextBox();
@@ -21,9 +22,9 @@ public class BoardLoginPanel extends DockLayoutPanel {
 	String password;
 	private Boolean isLoggedIn = false;
 	
-	public BoardLoginPanel(CheckinServiceAsync checkinService) {
+	public BoardLoginPanel(YManageServiceAsync yManageService) {
 		super(Unit.EM);
-		this.checkinService = checkinService;
+		this.yManageService = yManageService;
 		this.createComponents();
 	}
 	

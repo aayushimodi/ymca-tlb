@@ -7,13 +7,13 @@
 
   <!-- Servlets -->
   <servlet>
-    <servlet-name>checkinServlet</servlet-name>
-    <servlet-class>org.ymca.tvc.ymanage.server.CheckinServiceImpl</servlet-class>
+    <servlet-name>yManageServlet</servlet-name>
+    <servlet-class>org.ymca.tvc.ymanage.server.YManageServiceImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>
-    <servlet-name>checkinServlet</servlet-name>
-    <url-pattern>/ymanage/checkin</url-pattern>
+    <servlet-name>yManageServlet</servlet-name>
+    <url-pattern>/ymanage/ymanage</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->

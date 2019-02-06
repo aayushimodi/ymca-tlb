@@ -1,28 +1,32 @@
 package org.ymca.tvc.ymanage.client;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class VolunteerGroupsPanel extends DockLayoutPanel {
 
-	private final CheckinServiceAsync checkinService;
+	private final YManageServiceAsync yManageService;
 	private Label numLabel = new Label();
 	private TextBox numBox = new TextBox();
 	private Button numButton = new Button();
 	private TabPanel groupTabs = new TabPanel();
 	private int groupNum;
 
-	public VolunteerGroupsPanel(CheckinServiceAsync checkinService) {
+	public VolunteerGroupsPanel(YManageServiceAsync yManageService) {
 		super(Unit.EM);
-		this.checkinService = checkinService;
+		this.yManageService = yManageService;
 		this.createComponents();
 	}
 
