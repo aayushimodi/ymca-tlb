@@ -14,8 +14,6 @@ public class MeetingAttendanceStatus implements IsSerializable {
 		Date d = new Date();
 		this.meetingId = (count++) + "_" + d.toString(); 
 		this.checkedinStudents = new HashMap<String, Date>();
-		this.checkedinStudents.put("Aayushi Modi", new Date());
-		this.checkedinStudents.put("Shivani Modi", new Date());
 	}
 	
 	

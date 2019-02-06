@@ -142,15 +142,11 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 		
 		checkinService.getCheckinStatus(new AsyncCallback<MeetingAttendanceStatus>() {
 			
-			
 			@Override
 			public void onFailure(Throwable caught) {
-				// Show the RPC error message to the user
 
 				Logger logger = Logger.getLogger("");
 				logger.log(Level.SEVERE, "Error" + caught.toString());
-				
-				statusPanel.displayError("ERROR in getting information from the server, will retry in a bit!");
 			}
 
 			@Override
@@ -195,12 +191,14 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 			
 			@Override
 			public void onFailure(Throwable caught) {
-				// Show the RPC error message to the user
+				if(caught.getClass().equals(YException.class)) {
+					statusPanel.displayError(caught.getMessage());
+				} else {
+					statusPanel.displayError("Error in getting information from the server, try again later!");
+				}
 
 				Logger logger = Logger.getLogger("");
 				logger.log(Level.SEVERE, "Error" + caught.toString());
-				
-				statusPanel.displayError("ERROR checking in " + nameBox.getText());
 			}
 
 			@Override

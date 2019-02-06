@@ -11,9 +11,9 @@ import com.google.gwt.user.client.rpc.*;
 @RemoteServiceRelativePath("checkin")
 public interface CheckinService extends RemoteService {
 	
-	Date checkInVolunteer(String name);
+	Date checkInVolunteer(String name) throws YException;
 	
-	MeetingAttendanceStatus getCheckinStatus();
+	MeetingAttendanceStatus getCheckinStatus() throws YException;
 	
-	void addVolunteer(Volunteer v);
+	void addVolunteer(Volunteer v) throws YException;
 }

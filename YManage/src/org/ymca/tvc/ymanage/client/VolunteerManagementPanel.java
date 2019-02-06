@@ -23,21 +23,21 @@ import com.google.gwt.view.client.SingleSelectionModel;
 public class VolunteerManagementPanel extends DockLayoutPanel {
 
 	private final CheckinServiceAsync checkinService;
-	
+
 	// table that shows the list of the volunteers
 	private ListDataProvider<VolunteersTableRow> volunteersTableDataProvider;
 	private CellTable<VolunteersTableRow> volunteersTable;
 	private SingleSelectionModel<VolunteersTableRow> volunteersTableSelectionModel;
-	
+
 	// add or edit volunteer information
 	private TextBox nameTextBox = new TextBox();
 	private TextBox emailTextBox = new TextBox();
 	private TextBox ageTextBox = new TextBox();
 	private TextBox schoolTextBox = new TextBox();
 	private Button addVolunteerButton = new Button("Add");
-	
+
 	private StatusPanel statusPanel;
-	
+
 	public VolunteerManagementPanel(CheckinServiceAsync checkinService) {
 		super(Unit.EM);
 		this.checkinService = checkinService;
@@ -47,33 +47,33 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 	}
 
 	private void createComponents() {
-		
+
 		this.addSouth(createStatusPanel(), 5);
-		
-		//DockLayoutPanel p = new DockLayoutPanel(Unit.EM);
+
+		// DockLayoutPanel p = new DockLayoutPanel(Unit.EM);
 		this.addWest(createAddEditPanel(), 18);
 		this.add(createVolunteerTable());
-		//this.add(p);
+		// this.add(p);
 	}
 
 	private Widget createAddEditPanel() {
 		FlexTable addEditPanel = new FlexTable();
-		
+
 		addEditPanel.setWidget(1, 0, new Label("Name: "));
 		addEditPanel.setWidget(1, 1, nameTextBox);
-		
+
 		addEditPanel.setWidget(2, 0, new Label("Email: "));
 		addEditPanel.setWidget(2, 1, emailTextBox);
-		
+
 		addEditPanel.setWidget(3, 0, new Label("Age: "));
 		addEditPanel.setWidget(3, 1, ageTextBox);
-		
+
 		addEditPanel.setWidget(4, 0, new Label("School: "));
 		addEditPanel.setWidget(4, 1, schoolTextBox);
-		
+
 		addEditPanel.setWidget(5, 0, new Label(" "));
 		addEditPanel.setWidget(5, 1, addVolunteerButton);
-		
+
 		nameTextBox.setFocus(true);
 
 		addVolunteerButton.addClickHandler(new ClickHandler() {
@@ -94,8 +94,7 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 	}
 
 	private Widget createVolunteerTable() {
-		
-		
+
 		TextColumn<VolunteersTableRow> nameCol = new TextColumn<VolunteersTableRow>() {
 			public String getValue(VolunteersTableRow row) {
 				return row.name;
@@ -131,11 +130,10 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 
 		volunteersTable.setWidth("100%");
 		volunteersTable.addStyleName("tvc-center-align");
-		
-		
+
 		volunteersTableSelectionModel = new SingleSelectionModel<VolunteersTableRow>();
 		volunteersTable.setSelectionModel(volunteersTableSelectionModel);
-		
+
 		volunteersTableSelectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 			public void onSelectionChange(SelectionChangeEvent event) {
 				VolunteersTableRow row = volunteersTableSelectionModel.getSelectedObject();
@@ -149,12 +147,12 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 		ScrollPanel s = new ScrollPanel(volunteersTable);
 		s.setHeight("20em");
 		s.setVerticalScrollPosition(0);
-		
+
 		return s;
 	}
 
 	private Widget createStatusPanel() {
-		
+
 		this.statusPanel = new StatusPanel();
 		this.statusPanel.setWidth("75%");
 		return this.statusPanel;
@@ -176,7 +174,11 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				// Show the RPC error message to the user
+				if(caught.getClass().equals(YException.class)) {
+					statusPanel.displayError(caught.getMessage());
+				} else {
+					statusPanel.displayError("Error in getting information from the server, try again later!");
+				}
 
 				Logger logger = Logger.getLogger("");
 				logger.log(Level.SEVERE, "Error" + caught.toString());
@@ -194,10 +196,12 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 				emailTextBox.setText("");
 				ageTextBox.setText("");
 				schoolTextBox.setText("");
+				
+				statusPanel.clearDisplay();
 			}
 		});
 	}
-	
+
 	class VolunteersTableRow {
 		public String name;
 		public String email;
@@ -212,4 +216,3 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 		}
 	}
 }
-

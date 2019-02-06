@@ -10,9 +10,9 @@ import com.google.gwt.user.client.rpc.*;
  */
 public interface CheckinServiceAsync {
 	
-	void checkInVolunteer(String name, AsyncCallback<Date> callback);
+	void checkInVolunteer(String name, AsyncCallback<Date> callback) throws YException;
 	
-	void getCheckinStatus(AsyncCallback<MeetingAttendanceStatus> callback);
+	void getCheckinStatus(AsyncCallback<MeetingAttendanceStatus> callback) throws YException;
 
-	void addVolunteer(Volunteer v, AsyncCallback<Void> callback);
+	void addVolunteer(Volunteer v, AsyncCallback<Void> callback) throws YException;
 }

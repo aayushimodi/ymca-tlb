@@ -23,16 +23,16 @@ public class DB {
 	
 	synchronized Date checkInVolunteer(String name) {
 		if (currentMeeting == null) {
-			//error
+			throw new YException("There is no meeting in progress. The board needs to start a meeting first.");
 		} 
 		
 		
 		if(!volunteers.containsKey(name)) {
-				//error
+			throw new YException("The volunteer " + name + " does not exist. The board must add them to the volunteer list.");
 		} 
 		
 		if(currentMeeting.getCheckedinStudents().containsKey(name)) {
-					//error
+			throw new YException("The volunteer " + name + " is already checked in.");
 		}
 		
 		Date date = new Date();
@@ -44,7 +44,7 @@ public class DB {
 	
 	synchronized void startMeeting() {
 		if (!(currentMeeting == null)) {
-			//error
+			throw new YException("There is already a meeting in progress. This meeting must be ended before a new one can be started.");
 		}
 		
 		currentMeeting = new MeetingAttendanceStatus();
@@ -56,7 +56,7 @@ public class DB {
 	
 	public synchronized void endMeeting() {
 		if(currentMeeting == null) {
-			//error
+			throw new YException("There is no meeting in progress.");
 		}
 		
 		meetings.put(currentMeeting.getMeetingId(), currentMeeting);
@@ -68,7 +68,11 @@ public class DB {
 	}
 	
 	public synchronized void addVolunteer(Volunteer v) {
-		volunteers.put(v.getName(), v);
+		if(volunteers.containsKey(v.getName())) {
+			throw new YException("The volunteer " + v.getName() + " already exists.");
+		} else {
+			volunteers.put(v.getName(), v);
+		}
 	}
 	
 	public synchronized void removeVolunteer(Volunteer v) {
