@@ -20,7 +20,7 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 	// table that shows the list of the volunteers
 	private ListDataProvider<VolunteerInfo> volunteersTableDataProvider;
 	private CellTable<VolunteerInfo> volunteersTable;
-	private SingleSelectionModel<VolunteerInfo> volunteersTableSelectionModel;
+	private SingleSelectionModel<VolunteerInfo> volunteersTableSelectionModel = new SingleSelectionModel<VolunteerInfo>();
 
 	// add or edit volunteer information
 	private TextBox nameTextBox = new TextBox();
@@ -28,7 +28,12 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 	private TextBox ageTextBox = new TextBox();
 	private TextBox schoolTextBox = new TextBox();
 	private Button addVolunteerButton = new Button("Add");
+	private Button deleteVolunteerButton = new Button("Delete");
 	private VolunteerInfo newVInfo;
+	private String name;
+	private String email;
+	private String age;
+	private String school;
 	
 	private StatusPanel statusPanel;
 
@@ -62,14 +67,20 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 		addEditPanel.setWidget(4, 0, new Label("School: "));
 		addEditPanel.setWidget(4, 1, schoolTextBox);
 
-		addEditPanel.setWidget(5, 0, new Label(" "));
-		addEditPanel.setWidget(5, 1, addVolunteerButton);
+		addEditPanel.setWidget(5, 0, addVolunteerButton);
+		addEditPanel.setWidget(5, 1, deleteVolunteerButton);
 
 		nameTextBox.setFocus(true);
 
 		addVolunteerButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				addVolunteer();
+			}
+		});
+		
+		deleteVolunteerButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				deleteVolunteer();
 			}
 		});
 
@@ -122,7 +133,6 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 		volunteersTable.setWidth("100%");
 		volunteersTable.addStyleName("tvc-center-align");
 
-		volunteersTableSelectionModel = new SingleSelectionModel<VolunteerInfo>();
 		volunteersTable.setSelectionModel(volunteersTableSelectionModel);
 
 		volunteersTableSelectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
@@ -130,7 +140,7 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 				VolunteerInfo row = volunteersTableSelectionModel.getSelectedObject();
 				if (row != null) {
 					List<VolunteerInfo> list = volunteersTableDataProvider.getList();
-					list.remove(row);
+					//list.remove(row);
 				}
 			}
 		});
@@ -150,10 +160,10 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 	}
 
 	private void addVolunteer() {
-		final String name = nameTextBox.getText().trim();
-		final String email = emailTextBox.getText();
-		final String age = ageTextBox.getText();
-		final String school = schoolTextBox.getText();
+		name = nameTextBox.getText().trim();
+		email = emailTextBox.getText();
+		age = ageTextBox.getText();
+		school = schoolTextBox.getText();
 		nameTextBox.setFocus(true);
 
 		// TODO: add field verifier on server and on client
@@ -187,6 +197,35 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 				emailTextBox.setText("");
 				ageTextBox.setText("");
 				schoolTextBox.setText("");
+				
+				statusPanel.clearDisplay();
+			}
+		});
+	}
+	
+	private void deleteVolunteer() {
+		final VolunteerInfo row = volunteersTableSelectionModel.getSelectedObject();
+		
+		yManageService.removeVolunteer(row.getName(), new AsyncCallback<Void>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				if(caught.getClass().equals(YException.class)) {
+					statusPanel.displayError(caught.getMessage());
+				} else {
+					statusPanel.displayError("Error in getting information from the server, try again later!");
+				}
+
+				Logger logger = Logger.getLogger("");
+				logger.log(Level.SEVERE, "Error" + caught.toString());
+			}
+
+			public void onSuccess(Void result) {
+				Logger logger = Logger.getLogger("");
+				logger.log(Level.INFO, newVInfo.getName() + " deleted");
+
+				List<VolunteerInfo> list = volunteersTableDataProvider.getList();
+				list.remove(row);
 				
 				statusPanel.clearDisplay();
 			}
