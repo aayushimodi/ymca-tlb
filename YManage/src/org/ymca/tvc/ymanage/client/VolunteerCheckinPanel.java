@@ -182,6 +182,11 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 	private void checkInVolunteer() {
 		
 		String volunteerName = this.nameBox.getText();
+		
+		if(!FieldVerifier.isValidName(volunteerName)) {
+			statusPanel.displayInfo("Please enter a valid name.");
+			return;
+		}
 		statusPanel.displayInfo("Checking in " + volunteerName + " ...");
 		
 		yManageService.checkInVolunteer(volunteerName, new AsyncCallback<Date>() {
