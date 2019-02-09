@@ -21,7 +21,7 @@ public class DB {
 		createTestData();
 	}
 	
-	synchronized Date checkInVolunteer(String name) {
+	synchronized AttendanceRecord checkInVolunteer(String name) {
 		if (currentMeeting == null) {
 			throw new YException("There is no meeting in progress. The board needs to start a meeting first.");
 		} 
@@ -35,26 +35,27 @@ public class DB {
 			throw new YException("The volunteer " + name + " is already checked in.");
 		}
 		
-		Date date = new Date();
-		volunteers.get(name).markAttendance(date.toString(), true);
-		currentMeeting.getCheckedinStudents().put(name, date);
+		Date checkinTime = new Date();
+		AttendanceRecord result = volunteers.get(name).markPresent(currentMeeting.getMeetingId(), checkinTime);
+		currentMeeting.getCheckedinStudents().put(name, checkinTime);
 		
-		return date;
+		return result;
 	}
 	
-	synchronized void startMeeting() {
-		if (!(currentMeeting == null)) {
-			throw new YException("There is already a meeting in progress. This meeting must be ended before a new one can be started.");
-		}
+	synchronized MeetingAttendanceStatus startMeeting() {
+		if (currentMeeting == null) {
+			
+			currentMeeting = new MeetingAttendanceStatus();
 		
-		currentMeeting = new MeetingAttendanceStatus();
+			for(String v: volunteers.keySet()) {
+				volunteers.get(v).markAbsent(currentMeeting.getMeetingId());
+			}
+		} 
 		
-		for(String v: volunteers.keySet()) {
-			volunteers.get(v).markAttendance(currentMeeting.getMeetingId(), false);
-		}
+		return currentMeeting;
 	}
 	
-	public synchronized void endMeeting() {
+	synchronized void endMeeting() {
 		if(currentMeeting == null) {
 			throw new YException("There is no meeting in progress.");
 		}
@@ -63,11 +64,11 @@ public class DB {
 		currentMeeting = null;
 	}
 	
-	public synchronized MeetingAttendanceStatus getCurrentMeeting() {
+	synchronized MeetingAttendanceStatus getCurrentMeeting() {
 		return currentMeeting;
 	}
 	
-	public synchronized void addVolunteer(VolunteerInfo info) {
+	synchronized void addVolunteer(VolunteerInfo info) {
 		if (volunteers.containsKey(info.getName())) {
 			throw new YException("The volunteer " + info.getName() + " already exists.");
 		} else {
@@ -75,7 +76,7 @@ public class DB {
 		}
 	}
 	
-	public synchronized void removeVolunteer(String name) {
+	synchronized void removeVolunteer(String name) {
 		if (volunteers.containsKey(name)) {
 			volunteers.remove(name);
 		} else {
@@ -84,15 +85,15 @@ public class DB {
 	}
 	
 
-	public HashMap<String, Boolean> getAttendanceRecords(String name) {
+	ArrayList<AttendanceRecord> getAttendanceRecords(String name) {
 		if (volunteers.containsKey(name)) {
-			return volunteers.get(name).getAttendance();
+			return volunteers.get(name).getAttendanceRecords();
 		} else {
 			throw new YException("The volunteer " + name + " does not exists.");
 		}
 	}
 	
-	public synchronized ArrayList<VolunteerInfo> getAllVolunteerInfo() {
+	synchronized ArrayList<VolunteerInfo> getAllVolunteerInfo() {
 		
 		ArrayList<VolunteerInfo> result = new ArrayList<VolunteerInfo>();
 		for(String k : volunteers.keySet()) {

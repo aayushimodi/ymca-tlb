@@ -1,12 +1,12 @@
 package org.ymca.tvc.ymanage.shared;
 
-import java.util.HashMap;
+import java.util.*;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class Volunteer implements IsSerializable {
 	VolunteerInfo info;
-	HashMap<String, Boolean> attendance;
+	HashMap<String, AttendanceRecord> attendance;
 	
 	public Volunteer() {
 		
@@ -14,7 +14,7 @@ public class Volunteer implements IsSerializable {
 	
 	public Volunteer(VolunteerInfo info) {
 		this.info = info;
-		this.attendance = new HashMap<String, Boolean>();
+		this.attendance = new HashMap<String, AttendanceRecord>();
 	}
 
 	public VolunteerInfo getInfo() {
@@ -24,12 +24,18 @@ public class Volunteer implements IsSerializable {
 	public void setInfo(VolunteerInfo info) {
 		this.info = info;
 	}
-
-	public HashMap<String, Boolean> getAttendance() {
-		return this.attendance;
+	
+	public void markAbsent(String meetingId) {
+		attendance.put(meetingId, new AttendanceRecord(meetingId));
 	}
 	
-	public void markAttendance(String meetingId, Boolean status) {
-		attendance.put(meetingId, status);
+	public AttendanceRecord markPresent(String meetingId, Date checkinTime) {
+		AttendanceRecord r =  new AttendanceRecord(meetingId, checkinTime);
+		attendance.put(meetingId, r);
+		return r;
+	}
+
+	public ArrayList<AttendanceRecord> getAttendanceRecords() {
+		return new ArrayList<>(this.attendance.values());
 	}
 }

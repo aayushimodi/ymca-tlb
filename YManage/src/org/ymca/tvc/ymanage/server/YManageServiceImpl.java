@@ -13,7 +13,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class YManageServiceImpl extends RemoteServiceServlet implements YManageService {
 
-	public Date checkInVolunteer(String name) throws YException {
+	public AttendanceRecord checkInVolunteer(String name) throws YException {
 		DB db = DB.getCurrent();
 		return db.checkInVolunteer(name);
 	}
@@ -43,12 +43,20 @@ public class YManageServiceImpl extends RemoteServiceServlet implements YManageS
 	@Override
 	public ArrayList<AttendanceRecord> getAttendanceRecord(String name) {
 		DB db = DB.getCurrent();
-		ArrayList<AttendanceRecord> result = new ArrayList<AttendanceRecord>();
-		HashMap<String, Boolean> attendanceTable = db.getAttendanceRecords(name);
-		for(String key : attendanceTable.keySet()) {
-			result.add(new AttendanceRecord(key, attendanceTable.get(key)));
-		}
+		return db.getAttendanceRecords(name);
+	}
+
+	@Override
+	public MeetingAttendanceStatus startMeeting() throws YException {
 		
-		return result;
+		DB db = DB.getCurrent();
+		return db.startMeeting();
+	}
+
+	@Override
+	public void endMeeting() throws YException {
+		
+		DB db = DB.getCurrent();
+		db.endMeeting();
 	}
 }

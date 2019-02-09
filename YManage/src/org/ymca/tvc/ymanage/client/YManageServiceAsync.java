@@ -12,7 +12,7 @@ import com.google.gwt.user.client.rpc.*;
  */
 public interface YManageServiceAsync {
 	
-	void checkInVolunteer(String name, AsyncCallback<Date> callback) throws YException;
+	void checkInVolunteer(String name, AsyncCallback<AttendanceRecord> callback);
 	
 	void getCheckinStatus(AsyncCallback<MeetingAttendanceStatus> callback) throws YException;
 
@@ -23,4 +23,8 @@ public interface YManageServiceAsync {
 	void removeVolunteer(String name, AsyncCallback<Void> callback);
 	
 	void getAttendanceRecord(String name, AsyncCallback<ArrayList<AttendanceRecord>> callback);
+
+	void startMeeting(AsyncCallback<MeetingAttendanceStatus> callback);
+
+	void endMeeting(AsyncCallback<Void> callback);
 }

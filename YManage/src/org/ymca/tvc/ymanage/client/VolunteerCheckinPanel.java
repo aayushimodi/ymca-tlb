@@ -72,7 +72,7 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 		this.checkInButton.setWidth("90%");
 		this.checkInButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				checkInVolunteer();
+				checkInVolunteer(nameBox.getText());
 				nameBox.setText("");
 			}
 
@@ -179,7 +179,7 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 		}
 	}
 	
-	private void checkInVolunteer() {
+	private void checkInVolunteer(String volunteerName) {
 		
 		String volunteerName = this.nameBox.getText();
 		
@@ -189,7 +189,7 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 		}
 		statusPanel.displayInfo("Checking in " + volunteerName + " ...");
 		
-		yManageService.checkInVolunteer(volunteerName, new AsyncCallback<Date>() {
+		yManageService.checkInVolunteer(volunteerName, new AsyncCallback<String>() {
 			
 			@Override
 			public void onFailure(Throwable caught) {
@@ -204,14 +204,13 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 			}
 
 			@Override
-			public void onSuccess(Date result) {
-
-				String name = nameBox.getText();
+			public void onSuccess(String result) {
+				
 				Logger logger = Logger.getLogger("");
-				logger.log(Level.INFO, name + " checked in at "+ result);
+				logger.log(Level.INFO, volunteerName + " checked in at "+ result);
 
 				List<AttendanceTableRow> list = attendanceTableDataProvider.getList();
-				AttendanceTableRow row = new AttendanceTableRow(name, result.toString());
+				AttendanceTableRow row = new AttendanceTableRow(volunteerName, result.toString());
 				list.add(row);
 				
 				statusPanel.clearDisplay();

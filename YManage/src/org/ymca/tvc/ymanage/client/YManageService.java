@@ -12,6 +12,7 @@ import com.google.gwt.user.client.rpc.*;
  */
 @RemoteServiceRelativePath("ymanage")
 public interface YManageService extends RemoteService {
+	
 	// volunteer management
 	void addVolunteer(VolunteerInfo info) throws YException;
 	
@@ -21,7 +22,12 @@ public interface YManageService extends RemoteService {
 
 	ArrayList<AttendanceRecord> getAttendanceRecord(String name);
 	
-	Date checkInVolunteer(String name) throws YException;
+	// meeting management
+	MeetingAttendanceStatus startMeeting() throws YException;
+	
+	void endMeeting() throws YException;
+	
+	AttendanceRecord checkInVolunteer(String name) throws YException;
 	
 	MeetingAttendanceStatus getCheckinStatus() throws YException;
 }
