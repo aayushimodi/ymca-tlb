@@ -41,8 +41,14 @@ public class YManageServiceImpl extends RemoteServiceServlet implements YManageS
 	}
 
 	@Override
-	public HashMap<String, Boolean> getAttendanceRecord(String name) {
+	public ArrayList<AttendanceRecord> getAttendanceRecord(String name) {
 		DB db = DB.getCurrent();
-		return db.getAttendanceRecord(name);
+		ArrayList<AttendanceRecord> result = new ArrayList<AttendanceRecord>();
+		HashMap<String, Boolean> attendanceTable = db.getAttendanceRecords(name);
+		for(String key : attendanceTable.keySet()) {
+			result.add(new AttendanceRecord(key, attendanceTable.get(key)));
+		}
+		
+		return result;
 	}
 }

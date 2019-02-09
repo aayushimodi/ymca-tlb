@@ -84,7 +84,7 @@ public class DB {
 	}
 	
 
-	public HashMap<String, Boolean> getAttendanceRecord(String name) {
+	public HashMap<String, Boolean> getAttendanceRecords(String name) {
 		if (volunteers.containsKey(name)) {
 			return volunteers.get(name).getAttendance();
 		} else {

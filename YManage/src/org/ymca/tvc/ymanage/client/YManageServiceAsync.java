@@ -22,5 +22,5 @@ public interface YManageServiceAsync {
 
 	void removeVolunteer(String name, AsyncCallback<Void> callback);
 	
-	void getAttendanceRecord(String name, AsyncCallback<HashMap<String, Boolean>> callback);
+	void getAttendanceRecord(String name, AsyncCallback<ArrayList<AttendanceRecord>> callback);
 }
