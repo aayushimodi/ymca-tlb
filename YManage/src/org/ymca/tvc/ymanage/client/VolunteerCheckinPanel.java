@@ -29,6 +29,7 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 	private TextBox nameBox = new TextBox();
 	private Button checkInButton;
 	private Label meetingIdLabel;
+	private String volunteerName;
 
 	
 	public VolunteerCheckinPanel(YManageServiceAsync yManageService) {
@@ -72,7 +73,8 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 		this.checkInButton.setWidth("90%");
 		this.checkInButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				checkInVolunteer(nameBox.getText());
+				volunteerName = nameBox.getText();
+				checkInVolunteer();
 				nameBox.setText("");
 			}
 
@@ -179,9 +181,7 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 		}
 	}
 	
-	private void checkInVolunteer(String volunteerName) {
-		
-		String volunteerName = this.nameBox.getText();
+	private void checkInVolunteer() {
 		
 		if(!FieldVerifier.isValidName(volunteerName)) {
 			statusPanel.displayInfo("Please enter a valid name.");
