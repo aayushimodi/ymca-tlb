@@ -6,7 +6,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class Volunteer implements IsSerializable {
 	VolunteerInfo info;
-	HashMap<String, AttendanceRecord> attendance;
+	HashMap<MeetingId, AttendanceRecord> attendance;
 	
 	public Volunteer() {
 		
@@ -14,7 +14,7 @@ public class Volunteer implements IsSerializable {
 	
 	public Volunteer(VolunteerInfo info) {
 		this.info = info;
-		this.attendance = new HashMap<String, AttendanceRecord>();
+		this.attendance = new HashMap<MeetingId, AttendanceRecord>();
 	}
 
 	public VolunteerInfo getInfo() {
@@ -25,11 +25,11 @@ public class Volunteer implements IsSerializable {
 		this.info = info;
 	}
 	
-	public void markAbsent(String meetingId) {
+	public void markAbsent(MeetingId meetingId) {
 		attendance.put(meetingId, new AttendanceRecord(meetingId));
 	}
 	
-	public AttendanceRecord markPresent(String meetingId, Date checkinTime) {
+	public AttendanceRecord markPresent(MeetingId meetingId, Date checkinTime) {
 		AttendanceRecord r =  new AttendanceRecord(meetingId, checkinTime);
 		attendance.put(meetingId, r);
 		return r;

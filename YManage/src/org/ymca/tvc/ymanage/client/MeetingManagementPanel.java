@@ -4,8 +4,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.ymca.tvc.ymanage.shared.MeetingAttendanceStatus;
+import org.ymca.tvc.ymanage.shared.YException;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 
@@ -15,6 +18,7 @@ public class MeetingManagementPanel extends DockLayoutPanel {
 
 	private Label meetingLabel = new Label();
 	private Button meetingButton = new Button();
+	private StatusPanel statusPanel;
 
 	public MeetingManagementPanel(YManageServiceAsync yManageService) {
 		super(Unit.EM);
@@ -25,10 +29,11 @@ public class MeetingManagementPanel extends DockLayoutPanel {
 	}
 
 	private void createComponents() {
-		this.addNorth(startEndMeetingPanel(), 5);
+		this.addSouth(createStatusPanel(), 5);
+		this.addNorth(createStartEndMeetingPanel(), 5);
 	}
 
-	private Widget startEndMeetingPanel() {
+	private Widget createStartEndMeetingPanel() {
 		Grid g = new Grid(1, 3);
 
 		yManageService.getCheckinStatus(new AsyncCallback<MeetingAttendanceStatus>() {
@@ -44,7 +49,53 @@ public class MeetingManagementPanel extends DockLayoutPanel {
 			public void onSuccess(MeetingAttendanceStatus result) {
 
 				processMeetingAttendanceStatus(result);				
-				//statusPanel.clearDisplay();
+			}
+		});
+		
+		this.meetingButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				if(meetingButton.getText().equals("Start")) {
+					yManageService.startMeeting(new AsyncCallback<MeetingAttendanceStatus>() {
+
+						@Override
+						public void onFailure(Throwable caught) {
+							if(caught.getClass().equals(YException.class)) {
+								statusPanel.displayError(caught.getMessage());
+							} else {
+								statusPanel.displayError("Error in getting information from the server, try again later!");
+							}
+
+							Logger logger = Logger.getLogger("");
+							logger.log(Level.SEVERE, "Error" + caught.toString());
+						}
+
+						@Override
+						public void onSuccess(MeetingAttendanceStatus result) {
+							processMeetingAttendanceStatus(result);
+							
+						}
+					});
+				} else {
+					yManageService.endMeeting(new AsyncCallback<Void>() {
+
+						@Override
+						public void onFailure(Throwable caught) {
+							if(caught.getClass().equals(YException.class)) {
+								statusPanel.displayError(caught.getMessage());
+							} else {
+								statusPanel.displayError("Error in getting information from the server, try again later!");
+							}
+
+							Logger logger = Logger.getLogger("");
+							logger.log(Level.SEVERE, "Error" + caught.toString());
+						}
+
+						@Override
+						public void onSuccess(Void result) {
+							processMeetingAttendanceStatus(null);
+						}
+					});
+				}
 			}
 		});
 
@@ -62,9 +113,16 @@ public class MeetingManagementPanel extends DockLayoutPanel {
 			this.meetingLabel.setText("No meeting in progress. Click to start meeting.");
 			this.meetingButton.setText("Start");
 		} else {
-			this.meetingLabel.setText("Meeting in progress. Click to end meeting.");
+			this.meetingLabel.setText("Meeting " + status.getMeetingId().toString() +  " is in progress. Click to end meeting.");
 			this.meetingButton.setText("End");
 		}
+	}
+	
+	private Widget createStatusPanel() {
+
+		this.statusPanel = new StatusPanel();
+		this.statusPanel.setWidth("75%");
+		return this.statusPanel;
 	}
 
 }

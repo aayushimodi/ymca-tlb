@@ -6,18 +6,17 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class MeetingAttendanceStatus implements IsSerializable {
 
-	private String meetingId;
+	private MeetingId meetingId;
 	private HashMap<String, Date> checkedinStudents;
-	private static int count = 0;
 
 	public MeetingAttendanceStatus() {
 		Date d = new Date();
-		this.meetingId = (count++) + "_" + d.toString(); 
+		this.meetingId = new MeetingId(); 
 		this.checkedinStudents = new HashMap<String, Date>();
 	}
 	
 	
-	public String getMeetingId() {
+	public MeetingId getMeetingId() {
 		return this.meetingId;
 	}
 	

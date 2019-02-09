@@ -43,7 +43,10 @@ public class YManageServiceImpl extends RemoteServiceServlet implements YManageS
 	@Override
 	public ArrayList<AttendanceRecord> getAttendanceRecord(String name) {
 		DB db = DB.getCurrent();
-		return db.getAttendanceRecords(name);
+		ArrayList<AttendanceRecord> list = db.getAttendanceRecords(name);
+		Collections.sort(list);
+		return list;
+		
 	}
 
 	@Override

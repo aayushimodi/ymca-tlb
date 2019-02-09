@@ -160,7 +160,7 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 	private Widget createAttendanceTable() {
 		TextColumn<AttendanceRecord> dateCol = new TextColumn<AttendanceRecord>() {
 			public String getValue(AttendanceRecord row) {
-				return row.getMeetingId();
+				return row.getMeetingId().toString();
 			}
 		};
 

@@ -4,25 +4,25 @@ import java.util.Date;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class AttendanceRecord implements IsSerializable {
-	private String meetingId;
+public class AttendanceRecord implements IsSerializable, Comparable<AttendanceRecord> {
+	private MeetingId meetingId;
 	private Date checkinTime;
 
 	
 	public AttendanceRecord() {
 	}
 	
-	public AttendanceRecord(String meetingId) {
+	public AttendanceRecord(MeetingId meetingId) {
 		this.meetingId = meetingId;
 		this.checkinTime = null;
 	}
 	
-	public AttendanceRecord(String meetingId, Date checkinTime) {
+	public AttendanceRecord(MeetingId meetingId, Date checkinTime) {
 		this.meetingId = meetingId;
 		this.checkinTime = checkinTime;
 	}
 	
-	public String getMeetingId() {
+	public MeetingId getMeetingId() {
 		return this.meetingId;
 	}
 
@@ -32,5 +32,10 @@ public class AttendanceRecord implements IsSerializable {
 	
 	public Date getCheckinTime() {
 		return this.checkinTime;
+	}
+
+	@Override
+	public int compareTo(AttendanceRecord other) {
+		return Integer.compare(this.meetingId.getNum(), other.getMeetingId().getNum());
 	}
 }

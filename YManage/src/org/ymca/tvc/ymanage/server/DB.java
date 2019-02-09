@@ -7,7 +7,7 @@ public class DB {
 	
 	private static final DB current = new DB();
 	private HashMap<String, Volunteer> volunteers;
-	private HashMap<String, MeetingAttendanceStatus> meetings;
+	private HashMap<MeetingId, MeetingAttendanceStatus> meetings;
 	private MeetingAttendanceStatus currentMeeting;
 	
 	static DB getCurrent() {
@@ -16,7 +16,7 @@ public class DB {
 	
 	private DB() {
 		this.volunteers = new HashMap<String, Volunteer>();
-		this.meetings = new HashMap<String, MeetingAttendanceStatus>();
+		this.meetings = new HashMap<MeetingId, MeetingAttendanceStatus>();
 		this.currentMeeting = null;
 		createTestData();
 	}

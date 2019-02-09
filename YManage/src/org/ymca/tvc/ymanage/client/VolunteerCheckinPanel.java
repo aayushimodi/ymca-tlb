@@ -77,8 +77,6 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 				checkInVolunteer();
 				nameBox.setText("");
 			}
-
-			
 		});
 		
 		FlexTable table = new FlexTable();
