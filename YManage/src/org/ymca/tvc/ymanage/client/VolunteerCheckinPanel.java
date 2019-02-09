@@ -189,7 +189,7 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 		}
 		statusPanel.displayInfo("Checking in " + volunteerName + " ...");
 		
-		yManageService.checkInVolunteer(volunteerName, new AsyncCallback<String>() {
+		yManageService.checkInVolunteer(volunteerName, new AsyncCallback<AttendanceRecord>() {
 			
 			@Override
 			public void onFailure(Throwable caught) {
@@ -204,13 +204,13 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 			}
 
 			@Override
-			public void onSuccess(String result) {
+			public void onSuccess(AttendanceRecord result) {
 				
 				Logger logger = Logger.getLogger("");
-				logger.log(Level.INFO, volunteerName + " checked in at "+ result);
+				logger.log(Level.INFO, volunteerName + " checked in at "+ result.getCheckinTime());
 
 				List<AttendanceTableRow> list = attendanceTableDataProvider.getList();
-				AttendanceTableRow row = new AttendanceTableRow(volunteerName, result.toString());
+				AttendanceTableRow row = new AttendanceTableRow(volunteerName, result.getCheckinTime().toString());
 				list.add(row);
 				
 				statusPanel.clearDisplay();
