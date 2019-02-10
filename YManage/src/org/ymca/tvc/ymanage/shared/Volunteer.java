@@ -6,15 +6,24 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class Volunteer implements IsSerializable {
 	VolunteerInfo info;
-	HashMap<MeetingId, AttendanceRecord> attendance;
+	ArrayList<AttendanceRecord> attendanceRecordList;
+	transient HashMap<MeetingId, AttendanceRecord> attendanceRecordTable;
 	
 	public Volunteer() {
-		
+		this.attendanceRecordTable = new HashMap<MeetingId, AttendanceRecord>();
+		this.attendanceRecordList = new ArrayList<AttendanceRecord>();
 	}
 	
 	public Volunteer(VolunteerInfo info) {
 		this.info = info;
-		this.attendance = new HashMap<MeetingId, AttendanceRecord>();
+		this.attendanceRecordTable = new HashMap<MeetingId, AttendanceRecord>();
+		this.attendanceRecordList = new ArrayList<AttendanceRecord>();
+	}
+	
+	public void loadAttendanceTable() {
+		for(AttendanceRecord r : this.attendanceRecordList) {
+			this.attendanceRecordTable.put(r.getMeetingId(), r);
+		}
 	}
 
 	public VolunteerInfo getInfo() {
@@ -26,16 +35,33 @@ public class Volunteer implements IsSerializable {
 	}
 	
 	public void markAbsent(MeetingId meetingId) {
-		attendance.put(meetingId, new AttendanceRecord(meetingId));
+		AttendanceRecord record = null;
+		if (attendanceRecordTable.containsKey(meetingId)) {
+			record = attendanceRecordTable.get(meetingId);
+		} else {
+			record = new AttendanceRecord(meetingId);
+			attendanceRecordTable.put(meetingId, record);
+			attendanceRecordList.add(record);
+		}
+		
+		record.markAbsent();
 	}
 	
 	public AttendanceRecord markPresent(MeetingId meetingId, Date checkinTime) {
-		AttendanceRecord r =  new AttendanceRecord(meetingId, checkinTime);
-		attendance.put(meetingId, r);
-		return r;
+		AttendanceRecord record = null;
+		if (attendanceRecordTable.containsKey(meetingId)) {
+			record = attendanceRecordTable.get(meetingId);
+		} else {
+			record = new AttendanceRecord(meetingId);
+			attendanceRecordTable.put(meetingId, record);
+			attendanceRecordList.add(record);
+		}
+		
+		record.markPresent(checkinTime);
+		return record;
 	}
 
 	public ArrayList<AttendanceRecord> getAttendanceRecords() {
-		return new ArrayList<>(this.attendance.values());
+		return this.attendanceRecordList;
 	}
 }

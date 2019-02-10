@@ -158,9 +158,15 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 	}
 	
 	private Widget createAttendanceTable() {
-		TextColumn<AttendanceRecord> dateCol = new TextColumn<AttendanceRecord>() {
+		TextColumn<AttendanceRecord> meetingIdCol = new TextColumn<AttendanceRecord>() {
 			public String getValue(AttendanceRecord row) {
-				return row.getMeetingId().toString();
+				return row.getMeetingId().getNum() + "";
+			}
+		};
+		
+		TextColumn<AttendanceRecord> meetingDateCol = new TextColumn<AttendanceRecord>() {
+			public String getValue(AttendanceRecord row) {
+				return row.getMeetingId().getDate().toString();
 			}
 		};
 
@@ -171,7 +177,8 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 		};
 
 		attendanceTable = new CellTable<>();
-		attendanceTable.addColumn(dateCol, "Date");
+		attendanceTable.addColumn(meetingIdCol, "Meeting ID");
+		attendanceTable.addColumn(meetingDateCol, "Meeting Date");
 		attendanceTable.addColumn(attendanceCol, "Attendance");
 
 		attendanceTableDataProvider = new ListDataProvider<AttendanceRecord>();

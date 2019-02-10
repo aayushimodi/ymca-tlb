@@ -42,7 +42,7 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 	}
 	
 	void refreshData() {
-		//this.getCheckinStatus();
+		this.getCheckinStatus();
 	}
 
 	private void createComponents() {
@@ -59,7 +59,7 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 	
 	private Widget createContentPanel() {
 		DockLayoutPanel contentPanel = new DockLayoutPanel(Unit.EM);
-		contentPanel.addNorth(createCheckinInputPanel(), 5);
+		contentPanel.addNorth(createCheckinInputPanel(), 7);
 		contentPanel.addSouth(createStatusPanel(), 5);
 		contentPanel.add(createAttendanceTable());
 		
@@ -161,12 +161,16 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 			
 			this.checkInButton.setEnabled(false);
 			this.nameBox.setEnabled(false);
+			this.meetingIdLabel.setText("");
+			
+			List<AttendanceTableRow> list = this.attendanceTableDataProvider.getList();
+			list.clear();
 			
 		} else {
 			
 			this.checkInButton.setEnabled(true);
 			this.nameBox.setEnabled(true);
-			this.meetingIdLabel.setText("Check in for " + status.getMeetingId());
+			this.meetingIdLabel.setText("Check in for meeting " + status.getMeetingId().getNum() + " started at " + status.getMeetingId().getDate());
 		
 			List<AttendanceTableRow> list = this.attendanceTableDataProvider.getList();
 			list.clear();

@@ -270,6 +270,7 @@ public class DB {
 			try {
 				System.out.println(f.getAbsolutePath());
 				Volunteer v = gson.fromJson(new FileReader(f.getAbsolutePath()), Volunteer.class);
+				v.loadAttendanceTable();
 				this.volunteers.put(v.getInfo().getName(), v);
 				
 			} catch (Exception e) {

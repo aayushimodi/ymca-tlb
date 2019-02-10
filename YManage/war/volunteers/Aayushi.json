@@ -2,12 +2,44 @@
   "info": {
     "name": "Aayushi"
   },
-  "attendance": {
-    "1549763044679_Sat Feb 09 17:44:04 PST 2019": {
+  "attendanceRecordList": [
+    {
       "meetingId": {
-        "num": 1549763044679,
-        "date": "Feb 9, 2019 5:44:04 PM"
+        "num": 1549839741302,
+        "date": "Feb 10, 2019 3:02:21 PM"
       }
+    },
+    {
+      "meetingId": {
+        "num": 1549839741314,
+        "date": "Feb 10, 2019 3:02:21 PM"
+      },
+      "checkinTime": "Feb 10, 2019 3:02:35 PM"
+    },
+    {
+      "meetingId": {
+        "num": 1549839766810,
+        "date": "Feb 10, 2019 3:02:46 PM"
+      }
+    },
+    {
+      "meetingId": {
+        "num": 1549839768058,
+        "date": "Feb 10, 2019 3:02:48 PM"
+      }
+    },
+    {
+      "meetingId": {
+        "num": 1549840186722,
+        "date": "Feb 10, 2019 3:09:46 PM"
+      }
+    },
+    {
+      "meetingId": {
+        "num": 1549840288841,
+        "date": "Feb 10, 2019 3:11:28 PM"
+      },
+      "checkinTime": "Feb 10, 2019 3:11:32 PM"
     }
-  }
+  ]
 }

@@ -17,8 +17,11 @@ public class AttendanceRecord implements IsSerializable, Comparable<AttendanceRe
 		this.checkinTime = null;
 	}
 	
-	public AttendanceRecord(MeetingId meetingId, Date checkinTime) {
-		this.meetingId = meetingId;
+	public void markAbsent() {
+		this.checkinTime = null;
+	}
+	
+	public void markPresent( Date checkinTime) {
 		this.checkinTime = checkinTime;
 	}
 	

@@ -110,10 +110,10 @@ public class MeetingManagementPanel extends DockLayoutPanel {
 	
 	private void processMeetingAttendanceStatus(MeetingAttendanceStatus status) {
 		if (status == null) {
-			this.meetingLabel.setText("No meeting in progress. Click to start meeting.");
+			this.meetingLabel.setText("No meeting is in progress. Click `Start` button to start the meeting.");
 			this.meetingButton.setText("Start");
 		} else {
-			this.meetingLabel.setText("Meeting " + status.getMeetingId().toString() +  " is in progress. Click to end meeting.");
+			this.meetingLabel.setText("The meeting " + status.getMeetingId().getNum() + " started at " + status.getMeetingId().getDate() + " is in progress. Click `End` button to end the meeting.");
 			this.meetingButton.setText("End");
 		}
 	}
