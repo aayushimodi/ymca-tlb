@@ -296,10 +296,10 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 
 			public void onSuccess(Void result) {
 				Logger logger = Logger.getLogger("");
-				logger.log(Level.INFO, newVInfo.getName() + " deleted");
+				logger.log(Level.INFO, row.getName() + " deleted");
 
-				List<VolunteerInfo> list = volunteersTableDataProvider.getList();
-				list.remove(row);
+				volunteersTableDataProvider.getList().remove(row);
+				attendanceTableDataProvider.getList().clear();
 				
 				statusPanel.clearDisplay();
 			}

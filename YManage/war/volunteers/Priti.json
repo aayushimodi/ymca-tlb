@@ -1,0 +1,17 @@
+{
+  "info": {
+    "name": "Priti",
+    "email": "",
+    "school": "",
+    "age": ""
+  },
+  "attendance": {
+    "1549762902922_Sat Feb 09 17:41:42 PST 2019": {
+      "meetingId": {
+        "num": 1549762902922,
+        "date": "Feb 9, 2019 5:41:42 PM"
+      },
+      "checkinTime": "Feb 9, 2019 5:41:57 PM"
+    }
+  }
+}

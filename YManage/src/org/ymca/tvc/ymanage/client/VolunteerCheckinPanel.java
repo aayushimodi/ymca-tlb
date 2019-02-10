@@ -42,7 +42,7 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 	}
 	
 	void refreshData() {
-		this.getCheckinStatus();
+		//this.getCheckinStatus();
 	}
 
 	private void createComponents() {

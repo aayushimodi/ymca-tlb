@@ -5,16 +5,19 @@ import java.util.Date;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class MeetingId implements IsSerializable {
-	private static int count = 0;
-	private int num;
+	
+	private long num;
 	private Date date;
 	
 	public MeetingId() {
-		this.num = count++;
-		this.date = new Date();
 	}
 	
-	public int getNum() {
+	public MeetingId(long num, Date date) {
+		this.date = date;
+		this.num = num;
+	}
+	
+	public long getNum() {
 		return this.num;
 	}
 	

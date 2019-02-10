@@ -36,6 +36,6 @@ public class AttendanceRecord implements IsSerializable, Comparable<AttendanceRe
 
 	@Override
 	public int compareTo(AttendanceRecord other) {
-		return Integer.compare(this.meetingId.getNum(), other.getMeetingId().getNum());
+		return Long.compare(this.meetingId.getNum(), other.getMeetingId().getNum());
 	}
 }

@@ -10,11 +10,13 @@ public class MeetingAttendanceStatus implements IsSerializable {
 	private HashMap<String, Date> checkedinStudents;
 
 	public MeetingAttendanceStatus() {
-		Date d = new Date();
-		this.meetingId = new MeetingId(); 
-		this.checkedinStudents = new HashMap<String, Date>();
+		
 	}
 	
+	public MeetingAttendanceStatus(MeetingId id) {
+		this.meetingId = id; 
+		this.checkedinStudents = new HashMap<String, Date>();
+	}
 	
 	public MeetingId getMeetingId() {
 		return this.meetingId;
