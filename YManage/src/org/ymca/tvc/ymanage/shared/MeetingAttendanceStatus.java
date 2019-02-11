@@ -35,6 +35,10 @@ public class MeetingAttendanceStatus implements IsSerializable {
 		groups = new ArrayList<ArrayList<String>>();
 		ArrayList<String> vs = new  ArrayList<>(checkedinStudents.keySet());
 		
+		if (vs.size() < groupNum) {
+			new YException("The number of checked in students (" + vs.size() + ") is less than the number of groups requested.");
+		} 
+		
 		Random rand = new Random();
 		
 		for (int i = vs.size(); i > 0; i--) {
@@ -53,6 +57,7 @@ public class MeetingAttendanceStatus implements IsSerializable {
 			}
 			groups.add(group);
 		}
+		
 		groups.get(groups.size() - 1).addAll(temp);
 	}
 	
