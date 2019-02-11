@@ -35,13 +35,13 @@ public class YManageServiceImpl extends RemoteServiceServlet implements YManageS
 	}
 
 	@Override
-	public ArrayList<VolunteerInfo> getAllVolunteerInfo() {
+	public ArrayList<VolunteerInfo> getAllVolunteerInfo()  throws YException {
 		DB db = DB.getCurrent();
 		return db.getAllVolunteerInfo();
 	}
 
 	@Override
-	public ArrayList<AttendanceRecord> getAttendanceRecord(String name) {
+	public ArrayList<AttendanceRecord> getAttendanceRecord(String name)  throws YException  {
 		DB db = DB.getCurrent();
 		ArrayList<AttendanceRecord> list = db.getAttendanceRecords(name);
 		Collections.sort(list);
@@ -62,4 +62,11 @@ public class YManageServiceImpl extends RemoteServiceServlet implements YManageS
 		DB db = DB.getCurrent();
 		db.endMeeting();
 	}
+
+	@Override
+	public MeetingAttendanceStatus createWorkGroups(int numGroups) throws YException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

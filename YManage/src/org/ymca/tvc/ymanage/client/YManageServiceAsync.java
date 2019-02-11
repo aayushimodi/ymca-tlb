@@ -12,19 +12,21 @@ import com.google.gwt.user.client.rpc.*;
  */
 public interface YManageServiceAsync {
 	
-	void checkInVolunteer(String name, AsyncCallback<AttendanceRecord> callback);
+	void checkInVolunteer(String name, AsyncCallback<AttendanceRecord> callback) throws YException;
 	
 	void getCheckinStatus(AsyncCallback<MeetingAttendanceStatus> callback) throws YException;
 
-	void addVolunteer(VolunteerInfo info, AsyncCallback<Void> callback);
+	void addVolunteer(VolunteerInfo info, AsyncCallback<Void> callback) throws YException;
 
-	void getAllVolunteerInfo(AsyncCallback<ArrayList<VolunteerInfo>> callback);
+	void getAllVolunteerInfo(AsyncCallback<ArrayList<VolunteerInfo>> callback) throws YException;
 
-	void removeVolunteer(String name, AsyncCallback<Void> callback);
+	void removeVolunteer(String name, AsyncCallback<Void> callback) throws YException;
 	
-	void getAttendanceRecord(String name, AsyncCallback<ArrayList<AttendanceRecord>> callback);
+	void getAttendanceRecord(String name, AsyncCallback<ArrayList<AttendanceRecord>> callback) throws YException;
 
-	void startMeeting(AsyncCallback<MeetingAttendanceStatus> callback);
+	void startMeeting(AsyncCallback<MeetingAttendanceStatus> callback) throws YException;
 
-	void endMeeting(AsyncCallback<Void> callback);
+	void endMeeting(AsyncCallback<Void> callback) throws YException;
+
+	void createWorkGroups(int numGroups, AsyncCallback<MeetingAttendanceStatus> callback) throws YException;
 }

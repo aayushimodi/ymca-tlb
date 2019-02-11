@@ -6,26 +6,17 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class Volunteer implements IsSerializable {
 	VolunteerInfo info;
-	ArrayList<AttendanceRecord> attendanceRecordList;
-	transient HashMap<MeetingId, AttendanceRecord> attendanceRecordTable;
+	HashMap<String, AttendanceRecord> attendanceRecordMap;
 	
 	public Volunteer() {
-		this.attendanceRecordTable = new HashMap<MeetingId, AttendanceRecord>();
-		this.attendanceRecordList = new ArrayList<AttendanceRecord>();
+		this.attendanceRecordMap = new HashMap<String, AttendanceRecord>();
 	}
 	
 	public Volunteer(VolunteerInfo info) {
 		this.info = info;
-		this.attendanceRecordTable = new HashMap<MeetingId, AttendanceRecord>();
-		this.attendanceRecordList = new ArrayList<AttendanceRecord>();
+		this.attendanceRecordMap = new HashMap<String, AttendanceRecord>();
 	}
 	
-	public void loadAttendanceTable() {
-		for(AttendanceRecord r : this.attendanceRecordList) {
-			this.attendanceRecordTable.put(r.getMeetingId(), r);
-		}
-	}
-
 	public VolunteerInfo getInfo() {
 		return info;
 	}
@@ -36,12 +27,12 @@ public class Volunteer implements IsSerializable {
 	
 	public void markAbsent(MeetingId meetingId) {
 		AttendanceRecord record = null;
-		if (attendanceRecordTable.containsKey(meetingId)) {
-			record = attendanceRecordTable.get(meetingId);
+		String key = meetingId.toString();
+		if (attendanceRecordMap.containsKey(key)) {
+			record = attendanceRecordMap.get(key);
 		} else {
 			record = new AttendanceRecord(meetingId);
-			attendanceRecordTable.put(meetingId, record);
-			attendanceRecordList.add(record);
+			attendanceRecordMap.put(key, record);
 		}
 		
 		record.markAbsent();
@@ -49,12 +40,12 @@ public class Volunteer implements IsSerializable {
 	
 	public AttendanceRecord markPresent(MeetingId meetingId, Date checkinTime) {
 		AttendanceRecord record = null;
-		if (attendanceRecordTable.containsKey(meetingId)) {
-			record = attendanceRecordTable.get(meetingId);
+		String key = meetingId.toString();
+		if (attendanceRecordMap.containsKey(key)) {
+			record = attendanceRecordMap.get(key);
 		} else {
 			record = new AttendanceRecord(meetingId);
-			attendanceRecordTable.put(meetingId, record);
-			attendanceRecordList.add(record);
+			attendanceRecordMap.put(key, record);
 		}
 		
 		record.markPresent(checkinTime);
@@ -62,6 +53,6 @@ public class Volunteer implements IsSerializable {
 	}
 
 	public ArrayList<AttendanceRecord> getAttendanceRecords() {
-		return this.attendanceRecordList;
+		return new ArrayList<>(this.attendanceRecordMap.values());
 	}
 }

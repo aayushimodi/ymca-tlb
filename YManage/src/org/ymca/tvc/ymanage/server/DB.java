@@ -167,12 +167,15 @@ public class DB {
 		return result;
 	}
 	
+	synchronized void createWorkingGroups(int numGroups) throws YException {
+		
+	}
+	
 	private void createTestData() {
 		
 		addVolunteer(new VolunteerInfo("Aayushi"));
 		addVolunteer(new VolunteerInfo("Shivani"));
 		
-		//endMeeting();
 		startMeeting();
 		
 		endMeeting();
@@ -270,7 +273,6 @@ public class DB {
 			try {
 				System.out.println(f.getAbsolutePath());
 				Volunteer v = gson.fromJson(new FileReader(f.getAbsolutePath()), Volunteer.class);
-				v.loadAttendanceTable();
 				this.volunteers.put(v.getInfo().getName(), v);
 				
 			} catch (Exception e) {

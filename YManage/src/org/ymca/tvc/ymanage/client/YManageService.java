@@ -18,9 +18,9 @@ public interface YManageService extends RemoteService {
 	
 	void removeVolunteer(String name) throws YException;
 	
-	ArrayList<VolunteerInfo> getAllVolunteerInfo();
+	ArrayList<VolunteerInfo> getAllVolunteerInfo()  throws YException;
 
-	ArrayList<AttendanceRecord> getAttendanceRecord(String name);
+	ArrayList<AttendanceRecord> getAttendanceRecord(String name)  throws YException;
 	
 	// meeting management
 	MeetingAttendanceStatus startMeeting() throws YException;
@@ -30,4 +30,6 @@ public interface YManageService extends RemoteService {
 	AttendanceRecord checkInVolunteer(String name) throws YException;
 	
 	MeetingAttendanceStatus getCheckinStatus() throws YException;
+	
+	MeetingAttendanceStatus createWorkGroups(int numGroups) throws YException;
 }
