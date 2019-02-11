@@ -17,6 +17,12 @@ public class VolunteerNameListPanel extends DockLayoutPanel {
 		this.createComponents();
 	}
 	
+	public VolunteerNameListPanel(ArrayList<String> names) {
+		super(Unit.EM);
+		this.createComponents();
+		this.addToList(names);
+	}
+	
 	public void clearList() {
 		dataProvider.getList().clear();
 	}

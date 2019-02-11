@@ -1,5 +1,6 @@
 package org.ymca.tvc.ymanage.client;
 
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -142,6 +143,11 @@ public class VolunteerGroupsPanel extends DockLayoutPanel {
 		} else {
 			
 			// add all of the groups 
+			ArrayList<ArrayList<String>> groups = null;
+			
+			for(int i = 0; i < groups.size(); i++) {
+				groupsTabPanel.add(new VolunteerNameListPanel(groups.get(i)), "Group " + i);
+			}
 		}
 	}
 	
