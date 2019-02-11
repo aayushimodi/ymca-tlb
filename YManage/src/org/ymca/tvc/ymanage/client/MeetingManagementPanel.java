@@ -36,7 +36,7 @@ public class MeetingManagementPanel extends DockLayoutPanel {
 	private Widget createStartEndMeetingPanel() {
 		Grid g = new Grid(1, 3);
 
-		yManageService.getCheckinStatus(new AsyncCallback<MeetingAttendanceStatus>() {
+		yManageService.getCurrentMeeting(new AsyncCallback<MeetingAttendanceStatus>() {
 
 			@Override
 			public void onFailure(Throwable caught) {

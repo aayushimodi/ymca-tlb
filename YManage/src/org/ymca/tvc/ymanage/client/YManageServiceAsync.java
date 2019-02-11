@@ -14,7 +14,7 @@ public interface YManageServiceAsync {
 	
 	void checkInVolunteer(String name, AsyncCallback<AttendanceRecord> callback) throws YException;
 	
-	void getCheckinStatus(AsyncCallback<MeetingAttendanceStatus> callback) throws YException;
+	void getCurrentMeeting(AsyncCallback<MeetingAttendanceStatus> callback) throws YException;
 
 	void addVolunteer(VolunteerInfo info, AsyncCallback<Void> callback) throws YException;
 

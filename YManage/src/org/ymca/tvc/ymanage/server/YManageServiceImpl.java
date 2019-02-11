@@ -18,7 +18,7 @@ public class YManageServiceImpl extends RemoteServiceServlet implements YManageS
 		return db.checkInVolunteer(name);
 	}
 	
-	public MeetingAttendanceStatus getCheckinStatus() throws YException {
+	public MeetingAttendanceStatus getCurrentMeeting() throws YException {
 		return DB.getCurrent().getCurrentMeeting();
 	}
 

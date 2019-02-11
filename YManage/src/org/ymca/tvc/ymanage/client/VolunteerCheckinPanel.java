@@ -137,7 +137,7 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 		
 		statusPanel.displayInfo("Refreshing checking information ...");
 		
-		yManageService.getCheckinStatus(new AsyncCallback<MeetingAttendanceStatus>() {
+		yManageService.getCurrentMeeting(new AsyncCallback<MeetingAttendanceStatus>() {
 			
 			@Override
 			public void onFailure(Throwable caught) {

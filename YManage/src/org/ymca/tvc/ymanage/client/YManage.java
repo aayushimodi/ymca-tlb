@@ -35,7 +35,7 @@ public class YManage implements EntryPoint {
 		checkinPanel = new VolunteerCheckinPanel(yManageService);
 		boardAdminPanel = new BoardAdminPanel(yManageService);
 	
-		RootLayoutPanel.get().add(homePanel);
+		RootLayoutPanel.get().add(new VolunteerGroupsPanel(yManageService));
 
 		selectMainPanel();
 		createRefreshTimer();

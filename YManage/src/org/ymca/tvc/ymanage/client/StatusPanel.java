@@ -1,21 +1,6 @@
 package org.ymca.tvc.ymanage.client;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.ymca.tvc.ymanage.shared.*;
-
-import com.google.gwt.core.client.*;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.*;
-import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.client.rpc.*;
 import com.google.gwt.user.client.ui.*;
-import com.google.gwt.view.client.ListDataProvider;
 
 public class StatusPanel extends Grid {
 

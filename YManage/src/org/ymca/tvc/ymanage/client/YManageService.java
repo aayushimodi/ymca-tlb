@@ -29,7 +29,7 @@ public interface YManageService extends RemoteService {
 	
 	AttendanceRecord checkInVolunteer(String name) throws YException;
 	
-	MeetingAttendanceStatus getCheckinStatus() throws YException;
+	MeetingAttendanceStatus getCurrentMeeting() throws YException;
 	
 	MeetingAttendanceStatus createWorkGroups(int numGroups) throws YException;
 }
