@@ -85,9 +85,6 @@ public class VolunteerGroupsPanel extends DockLayoutPanel {
 	
 	private Widget createGroupsTabPanel() {
 		groupsTabPanel = new TabPanel();
-		for (int i = 0; i < 3; i++) {
-			groupsTabPanel.add(new VerticalPanel(), "Group " + (i + 1));
-		}
 		groupsTabPanel.setWidth("75%");
 		groupsTabPanel.addStyleName("tvc-center-align");
 		
@@ -135,18 +132,30 @@ public class VolunteerGroupsPanel extends DockLayoutPanel {
 	}
 	
 	private void processMeetingStatus(MeetingAttendanceStatus result) {
-		if (result == null) {
-			// clear all of the groups
-			
-			groupsTabPanel.clear();
-			
+		
+		Logger logger = Logger.getLogger("");
+		
+		if (result == null)	{
+			logger.log(Level.INFO, "Got no result");
 		} else {
+			if (result.getWorkGroups() != null)	{
+				logger.log(Level.INFO, "Got " + result.getWorkGroups().size() + " groups.");
+			} else {
+				logger.log(Level.INFO, "Got no groups.");
+			}
+		}
 			
-			// add all of the groups 
-			ArrayList<ArrayList<String>> groups = null;
+		
+		groupsTabPanel.clear();
+		
+		if (result != null) {
+	
+			ArrayList<ArrayList<String>> groups = result.getWorkGroups();
 			
-			for(int i = 0; i < groups.size(); i++) {
-				groupsTabPanel.add(new VolunteerNameListPanel(groups.get(i)), "Group " + i);
+			if (groups != null) {
+				for(int i = 0; i < groups.size(); i++) {
+					groupsTabPanel.add(new VolunteerNameListPanel(groups.get(i)), "Group " + (i + 1));
+				}
 			}
 		}
 	}

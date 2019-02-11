@@ -8,7 +8,7 @@ public class MeetingAttendanceStatus implements IsSerializable {
 
 	private MeetingId meetingId;
 	private HashMap<String, Date> checkedinStudents;
-	transient private ArrayList<ArrayList<String>> groups;
+	private ArrayList<ArrayList<String>> groups;
 
 	public MeetingAttendanceStatus() {
 		
@@ -29,6 +29,10 @@ public class MeetingAttendanceStatus implements IsSerializable {
 	
 	public void addCheckedInVolunteer(String name, Date checkinTime) {
 		this.checkedinStudents.put(name, checkinTime);
+	}
+	
+	public ArrayList<ArrayList<String>> getWorkGroups() {
+		return this.groups;
 	}
 	
 	public void createWorkGroups(int groupNum) {

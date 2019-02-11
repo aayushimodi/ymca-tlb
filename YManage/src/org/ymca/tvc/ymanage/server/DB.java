@@ -167,8 +167,12 @@ public class DB {
 	}
 	
 	synchronized MeetingAttendanceStatus createWorkGroups(int numGroups) throws YException {
-		return currentMeeting;
+		if (currentMeeting != null) {
+		System.out.println("Creating groups " + numGroups);
+			currentMeeting.createWorkGroups(numGroups);
+		}
 		
+		return currentMeeting;
 	}
 	
 	private void createTestData() {
