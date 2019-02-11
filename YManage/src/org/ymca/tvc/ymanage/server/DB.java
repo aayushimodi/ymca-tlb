@@ -59,7 +59,7 @@ public class DB {
 		Date checkinTime = new Date();
 		Volunteer v = volunteers.get(name);
 		AttendanceRecord result = v.markPresent(currentMeeting.getMeetingId(), checkinTime);
-		currentMeeting.getCheckedinStudents().put(name, checkinTime);
+		currentMeeting.addCheckedInVolunteer(name, checkinTime);
 		
 		try {
 			this.saveVolunteer(v);
@@ -132,8 +132,7 @@ public class DB {
 		}
 		
 	}
-	
-	synchronized void removeVolunteer(String name) {
+ 	synchronized void removeVolunteer(String name) {
 		if (volunteers.containsKey(name)) {
 			volunteers.remove(name);
 		} else {
@@ -167,7 +166,8 @@ public class DB {
 		return result;
 	}
 	
-	synchronized void createWorkingGroups(int numGroups) throws YException {
+	synchronized MeetingAttendanceStatus createWorkGroups(int numGroups) throws YException {
+		return currentMeeting;
 		
 	}
 	

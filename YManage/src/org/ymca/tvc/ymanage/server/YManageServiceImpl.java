@@ -65,8 +65,8 @@ public class YManageServiceImpl extends RemoteServiceServlet implements YManageS
 
 	@Override
 	public MeetingAttendanceStatus createWorkGroups(int numGroups) throws YException {
-		// TODO Auto-generated method stub
-		return null;
+		DB db = DB.getCurrent();
+		return db.createWorkGroups(numGroups);
 	}
 
 }
