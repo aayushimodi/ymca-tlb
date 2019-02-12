@@ -32,4 +32,8 @@ public interface YManageService extends RemoteService {
 	MeetingAttendanceStatus getCurrentMeeting() throws YException;
 	
 	MeetingAttendanceStatus createWorkGroups(int numGroups) throws YException;
+	
+	ArrayList<MeetingId> getPastMeetingIds() throws YException;
+	
+	ArrayList<String> getCheckedInVolunteers(MeetingId pastMeetingId) throws YException;
 }

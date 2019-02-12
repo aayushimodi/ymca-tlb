@@ -68,5 +68,17 @@ public class YManageServiceImpl extends RemoteServiceServlet implements YManageS
 		DB db = DB.getCurrent();
 		return db.createWorkGroups(numGroups);
 	}
+	
+	@Override
+	public ArrayList<MeetingId> getPastMeetingIds() throws YException {
+		DB db = DB.getCurrent();
+		return db.getPastMeetingIds();
+	}
+
+	@Override
+	public ArrayList<String> getCheckedInVolunteers(MeetingId pastMeetingId) throws YException {
+		DB db = DB.getCurrent();
+		return db.getCheckedInVolunteers(pastMeetingId);
+	}
 
 }

@@ -1,0 +1,38 @@
+{
+  "info": {
+    "name": "Shivani"
+  },
+  "attendanceRecordMap": {
+    "1549951070277_Mon Feb 11 21:57:50 PST 2019": {
+      "meetingId": {
+        "num": 1549951070277,
+        "date": "Feb 11, 2019 9:57:50 PM"
+      },
+      "checkinTime": "Feb 11, 2019 10:16:08 PM"
+    },
+    "1549950362392_Mon Feb 11 21:46:02 PST 2019": {
+      "meetingId": {
+        "num": 1549950362392,
+        "date": "Feb 11, 2019 9:46:02 PM"
+      }
+    },
+    "1549950362352_Mon Feb 11 21:46:02 PST 2019": {
+      "meetingId": {
+        "num": 1549950362352,
+        "date": "Feb 11, 2019 9:46:02 PM"
+      }
+    },
+    "1549951069006_Mon Feb 11 21:57:49 PST 2019": {
+      "meetingId": {
+        "num": 1549951069006,
+        "date": "Feb 11, 2019 9:57:49 PM"
+      }
+    },
+    "1549952300072_Mon Feb 11 22:18:20 PST 2019": {
+      "meetingId": {
+        "num": 1549952300072,
+        "date": "Feb 11, 2019 10:18:20 PM"
+      }
+    }
+  }
+}

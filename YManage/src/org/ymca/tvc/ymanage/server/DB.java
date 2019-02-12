@@ -174,6 +174,19 @@ public class DB {
 		return currentMeeting;
 	}
 	
+	synchronized ArrayList<MeetingId> getPastMeetingIds() {
+		return new ArrayList<MeetingId>(meetings.keySet());
+	}
+	
+	synchronized ArrayList<String> getCheckedInVolunteers(MeetingId pastMeetingId) throws YException {
+		
+		if (!meetings.containsKey(pastMeetingId)) {
+			throw new YException("Past meeting " + pastMeetingId.toString() + " not found.");
+		}
+		
+		return new ArrayList<String>(meetings.get(pastMeetingId).getCheckedinStudents().keySet());
+	}
+	
 	private void createTestData() {
 		
 		addVolunteer(new VolunteerInfo("Aayushi"));

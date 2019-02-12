@@ -1,8 +1,13 @@
 package org.ymca.tvc.ymanage.client;
 
+import java.util.ArrayList;
+
+import org.ymca.tvc.ymanage.shared.MeetingAttendanceStatus;
 import org.ymca.tvc.ymanage.shared.MeetingId;
+import org.ymca.tvc.ymanage.shared.VolunteerInfo;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
@@ -10,6 +15,8 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SingleSelectionModel;
 
 public class PreviousMeetingsPanel extends DockLayoutPanel {
 
@@ -17,7 +24,8 @@ public class PreviousMeetingsPanel extends DockLayoutPanel {
 	private StatusPanel statusPanel;
 	private Label meetingIdLabel;
 	private Label meetingDateLabel;
-	private ListPanel meetingIdListPanel;
+	private MeetingIdListPanel meetingIdListPanel;
+	private SingleSelectionModel<MeetingId> meetingIdSelectionModel = new SingleSelectionModel<MeetingId>();
 	private ListPanel volunteerNameListPanel;
 	
 	public PreviousMeetingsPanel(YManageServiceAsync yManageService) {
@@ -26,7 +34,7 @@ public class PreviousMeetingsPanel extends DockLayoutPanel {
 		this.createComponents();
 		this.setWidth("90%");
 		this.addStyleName("tvc-center-align");
-		//getGroupNames();
+		this.getPastMeetingIds();
 	}
 
 	private void createComponents() {
@@ -41,8 +49,19 @@ public class PreviousMeetingsPanel extends DockLayoutPanel {
 	
 	private Widget createMeetingIdListPanel() {
 	
-		meetingIdListPanel = new ListPanel(" Meeting Id ");
-		meetingIdListPanel.setStyleName("tvc-center-align");	
+		meetingIdListPanel = new MeetingIdListPanel(" Meeting Id ");
+		meetingIdListPanel.setStyleName("tvc-center-align");
+		meetingIdListPanel.setSelectionModel(meetingIdSelectionModel);
+
+		meetingIdSelectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+			public void onSelectionChange(SelectionChangeEvent event) {
+				MeetingId id = meetingIdSelectionModel.getSelectedObject();
+				if (id != null) {
+					getPastCheckedInVolunteers(id);
+				}
+			}
+		});
+		
 		ScrollPanel s = new ScrollPanel(meetingIdListPanel);
 		s.setHeight("20em");
 		s.setVerticalScrollPosition(0);
@@ -104,5 +123,47 @@ public class PreviousMeetingsPanel extends DockLayoutPanel {
 		} else {
 			return " Meeting Date: " + id.getDate().toString();
 		}
+	}
+	
+	private void getPastMeetingIds() {
+		yManageService.getPastMeetingIds(new AsyncCallback<ArrayList<MeetingId>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+
+				statusPanel.displayError(caught);
+			}
+
+			@Override
+			public void onSuccess(ArrayList<MeetingId> result) {
+				meetingIdListPanel.clearList();
+				for (MeetingId m : result) {
+					meetingIdListPanel.addToList(m);
+				}
+				
+				statusPanel.clearDisplay();
+			}
+		});
+	}
+	
+	private void getPastCheckedInVolunteers(MeetingId pastMeetingId) {
+		yManageService.getCheckedInVolunteers(pastMeetingId, new AsyncCallback<ArrayList<String>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+
+				statusPanel.displayError(caught);
+			}
+
+			@Override
+			public void onSuccess(ArrayList<String> result) {
+				volunteerNameListPanel.clearList();
+				for (String s : result) {
+					volunteerNameListPanel.addToList(s);
+				}
+				
+				statusPanel.clearDisplay();
+			}
+		});
 	}
 }

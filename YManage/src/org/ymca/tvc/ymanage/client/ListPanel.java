@@ -8,7 +8,6 @@ import com.google.gwt.view.client.ListDataProvider;
 
 public class ListPanel extends CellTable<String> {
 
-	//private CellTable<String> table;
 	private ListDataProvider<String> dataProvider;
 	
 	public ListPanel(String colName) {

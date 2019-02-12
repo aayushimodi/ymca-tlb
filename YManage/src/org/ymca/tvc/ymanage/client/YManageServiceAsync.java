@@ -29,4 +29,8 @@ public interface YManageServiceAsync {
 	void endMeeting(AsyncCallback<Void> callback) throws YException;
 
 	void createWorkGroups(int numGroups, AsyncCallback<MeetingAttendanceStatus> callback) throws YException;
+
+	void getPastMeetingIds(AsyncCallback<ArrayList<MeetingId>> callback) throws YException;
+
+	void getCheckedInVolunteers(MeetingId pastMeetingId, AsyncCallback<ArrayList<String>> callback) throws YException;
 }
