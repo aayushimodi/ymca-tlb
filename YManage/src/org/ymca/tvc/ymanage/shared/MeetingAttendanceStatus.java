@@ -36,33 +36,38 @@ public class MeetingAttendanceStatus implements IsSerializable {
 	}
 	
 	public void createWorkGroups(int groupNum) {
-		groups = new ArrayList<ArrayList<String>>();
-		ArrayList<String> vs = new  ArrayList<>(checkedinStudents.keySet());
 		
-		if (vs.size() < groupNum) {
-			new YException("The number of checked in students (" + vs.size() + ") is less than the number of groups requested.");
+		if (checkedinStudents.size() < groupNum) {
+			throw new YException("The number of checked in students (" + checkedinStudents.size() + ") is less than the number of groups requested.");
 		} 
+		
+		groups = new ArrayList<ArrayList<String>>();
+		ArrayList<String> shuffledNames = new  ArrayList<>(checkedinStudents.keySet());
 		
 		Random rand = new Random();
 		
-		for (int i = vs.size(); i > 0; i--) {
+		for (int i = shuffledNames.size(); i > 0; i--) {
 			int x = rand.nextInt(i);
-			this.swap(vs, x, i - 1);
+			this.swap(shuffledNames, x, i - 1);
 		}
 		
-		ArrayList<String> temp = vs;
+		int groupSize = shuffledNames.size() / groupNum;
 		
-		int groupSize = vs.size()/groupNum;
 		for (int i = 0; i < groupNum; i++) {
+			
 			ArrayList<String> group = new ArrayList<String>();
-			for (int k = 0; k < groupSize; k++) {
-				group.add(temp.get(k));
-				temp.remove(k);
+			int startIndex = i * groupSize;
+			
+			for (int k = startIndex; k < (startIndex + groupSize); k++) {
+				group.add(shuffledNames.get(k));
 			}
+			
 			groups.add(group);
 		}
 		
-		groups.get(groups.size() - 1).addAll(temp);
+		for (int i = (groupSize * groupNum); i < shuffledNames.size(); i++) {		
+			(groups.get(groups.size() - 1)).add(shuffledNames.get(i));
+		}
 	}
 	
 	private void swap(ArrayList<String> vs, int i1, int i2) {

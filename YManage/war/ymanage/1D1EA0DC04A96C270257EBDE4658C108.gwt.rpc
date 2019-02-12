@@ -1,0 +1,26 @@
+@FinalFields, false
+com.google.gwt.i18n.shared.impl.DateRecord, true, true, false, false, com.google.gwt.i18n.shared.impl.DateRecord/3173882066, 3173882066
+com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException, true, true, true, true, com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException/3936916533, 3936916533
+com.google.gwt.user.client.rpc.RpcTokenException, true, true, false, false, com.google.gwt.user.client.rpc.RpcTokenException/2345075298, 2345075298
+com.google.gwt.user.client.rpc.XsrfToken, false, false, true, true, com.google.gwt.user.client.rpc.XsrfToken/4254043109, 4254043109
+com.google.gwt.user.client.ui.ChangeListenerCollection, true, true, false, false, com.google.gwt.user.client.ui.ChangeListenerCollection/287642957, 287642957
+com.google.gwt.user.client.ui.ClickListenerCollection, true, true, false, false, com.google.gwt.user.client.ui.ClickListenerCollection/2152455986, 2152455986
+com.google.gwt.user.client.ui.FocusListenerCollection, true, true, false, false, com.google.gwt.user.client.ui.FocusListenerCollection/119490835, 119490835
+com.google.gwt.user.client.ui.KeyboardListenerCollection, true, true, false, false, com.google.gwt.user.client.ui.KeyboardListenerCollection/1040442242, 1040442242
+java.lang.Exception, true, false, true, false, java.lang.Exception/1920171873, 1920171873
+java.lang.RuntimeException, true, false, true, false, java.lang.RuntimeException/515124647, 515124647
+java.lang.String, true, true, true, true, java.lang.String/2004016611, 2004016611
+java.lang.Throwable, true, false, true, false, java.lang.Throwable/2953622131, 2953622131
+java.sql.Date, true, true, false, false, java.sql.Date/730999118, 730999118
+java.sql.Time, true, true, false, false, java.sql.Time/1816797103, 1816797103
+java.sql.Timestamp, true, true, false, false, java.sql.Timestamp/3040052672, 3040052672
+java.util.ArrayList, true, true, false, false, java.util.ArrayList/4159755760, 4159755760
+java.util.Date, true, true, false, false, java.util.Date/3385151746, 3385151746
+java.util.HashMap, true, true, false, false, java.util.HashMap/1797211028, 1797211028
+java.util.LinkedHashMap, true, true, false, false, java.util.LinkedHashMap/3008245022, 3008245022
+org.ymca.tvc.ymanage.client.YManageService, false, false, false, false, _, 1618575845
+org.ymca.tvc.ymanage.shared.AttendanceRecord, true, true, false, false, org.ymca.tvc.ymanage.shared.AttendanceRecord/4062260233, 4062260233
+org.ymca.tvc.ymanage.shared.MeetingAttendanceStatus, true, true, false, false, org.ymca.tvc.ymanage.shared.MeetingAttendanceStatus/2838512562, 2838512562
+org.ymca.tvc.ymanage.shared.MeetingId, true, true, false, false, org.ymca.tvc.ymanage.shared.MeetingId/1042311509, 1042311509
+org.ymca.tvc.ymanage.shared.VolunteerInfo, true, true, true, true, org.ymca.tvc.ymanage.shared.VolunteerInfo/4236577787, 4236577787
+org.ymca.tvc.ymanage.shared.YException, true, true, false, false, org.ymca.tvc.ymanage.shared.YException/2526952473, 2526952473

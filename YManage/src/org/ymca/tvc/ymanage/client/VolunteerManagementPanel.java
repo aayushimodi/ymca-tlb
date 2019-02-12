@@ -1,18 +1,33 @@
 package org.ymca.tvc.ymanage.client;
 
-import org.ymca.tvc.ymanage.shared.*;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.gwt.cell.client.ButtonCell;
-import com.google.gwt.dom.client.Style.*;
-import com.google.gwt.event.dom.client.*;
-import com.google.gwt.user.cellview.client.*;
-import com.google.gwt.user.client.rpc.*;
-import com.google.gwt.user.client.ui.*;
-import com.google.gwt.view.client.*;
+import org.ymca.tvc.ymanage.shared.AttendanceRecord;
+import org.ymca.tvc.ymanage.shared.FieldVerifier;
+import org.ymca.tvc.ymanage.shared.VolunteerInfo;
+
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.view.client.ListDataProvider;
+import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SingleSelectionModel;
 
 public class VolunteerManagementPanel extends DockLayoutPanel {
 
@@ -47,7 +62,7 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 		super(Unit.EM);
 		this.yManageService = yManageService;
 		this.createComponents();
-		this.setWidth("75%");
+		this.setWidth("90%");
 		this.addStyleName("tvc-center-align");
 		this.getVolunteers();
 	}
@@ -199,14 +214,7 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				if(caught.getClass().equals(YException.class)) {
-					statusPanel.displayError(caught.getMessage());
-				} else {
-					statusPanel.displayError("Error in getting information from the server, try again later!");
-				}
-
-				Logger logger = Logger.getLogger("");
-				logger.log(Level.SEVERE, "Error" + caught.toString());
+				statusPanel.displayError(caught);
 			}
 
 			@Override
@@ -218,7 +226,8 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 				for (AttendanceRecord ar: result) {
 					list.add(ar);
 				}
-				
+			
+				statusPanel.clearDisplay();
 			}
 		});
 	}
@@ -233,7 +242,7 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 	private Widget createStatusPanel() {
 
 		this.statusPanel = new StatusPanel();
-		this.statusPanel.setWidth("75%");
+		this.statusPanel.setWidth("100%");
 		return this.statusPanel;
 	}
 
@@ -257,14 +266,7 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				if(caught.getClass().equals(YException.class)) {
-					statusPanel.displayError(caught.getMessage());
-				} else {
-					statusPanel.displayError("Error in getting information from the server, try again later!");
-				}
-
-				Logger logger = Logger.getLogger("");
-				logger.log(Level.SEVERE, "Error" + caught.toString());
+				statusPanel.displayError(caught);
 			}
 
 			public void onSuccess(Void result) {
@@ -291,14 +293,7 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				if(caught.getClass().equals(YException.class)) {
-					statusPanel.displayError(caught.getMessage());
-				} else {
-					statusPanel.displayError("Error in getting information from the server, try again later!");
-				}
-
-				Logger logger = Logger.getLogger("");
-				logger.log(Level.SEVERE, "Error" + caught.toString());
+				statusPanel.displayError(caught);
 			}
 
 			public void onSuccess(Void result) {
@@ -316,14 +311,11 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 	
 	private void getVolunteers() {
 		
-		// statusPanel.displayInfo("Refreshing checking information ...");
-		
 		yManageService.getAllVolunteerInfo(new AsyncCallback<ArrayList<VolunteerInfo>>() {
 			
 			@Override
 			public void onFailure(Throwable caught) {
-				Logger logger = Logger.getLogger("");
-				logger.log(Level.SEVERE, "Error" + caught.toString());
+				statusPanel.displayError(caught);
 			}
 		
 
@@ -334,6 +326,8 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 				for(VolunteerInfo vInfo : result) {
 					list.add(vInfo);
 				}
+				
+				statusPanel.clearDisplay();
 			}
 		});		
 	}

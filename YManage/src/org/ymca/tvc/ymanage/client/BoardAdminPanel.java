@@ -29,8 +29,11 @@ public class BoardAdminPanel extends DockLayoutPanel {
 	private Widget createContentPanel() {
 		TabLayoutPanel tabPanel = new TabLayoutPanel(2, Unit.EM);
 		tabPanel.add(new VolunteerManagementPanel(yManageService), "Volunteers");
-		tabPanel.add(new MeetingManagementPanel(yManageService), "Meeting");
+		tabPanel.add(new CurrentMeetingPanel(yManageService), "Current Meeting");
+		tabPanel.add(new PreviousMeetingsPanel(yManageService), "Previous Meetings");
 		tabPanel.selectTab(0);
+		tabPanel.setWidth("75%");
+		tabPanel.addStyleName("tvc-center-align");
 		
 		return tabPanel;
 	}

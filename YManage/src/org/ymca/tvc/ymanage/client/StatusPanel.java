@@ -1,5 +1,10 @@
 package org.ymca.tvc.ymanage.client;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.ymca.tvc.ymanage.shared.YException;
+
 import com.google.gwt.user.client.ui.*;
 
 public class StatusPanel extends Grid {
@@ -37,5 +42,18 @@ public class StatusPanel extends Grid {
 		this.statusLabel.setHTML(
 				//"<span style=\"color:black\">" + new Date().toString() + ": </span>" +
 				"<span style=\"color:red\">" + message + "</span>");
+	}
+	
+	void displayError(Throwable caught) {
+
+		Logger logger = Logger.getLogger("");
+		logger.log(Level.SEVERE, "Error" + caught.toString());
+		
+		if(caught.getClass().equals(YException.class)) {
+			this.displayError(caught.getMessage());
+		} else {
+			this.displayError("Error in getting information from the server, try again later!");
+		}
+		
 	}
 }
