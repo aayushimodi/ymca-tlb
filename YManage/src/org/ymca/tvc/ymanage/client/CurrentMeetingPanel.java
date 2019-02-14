@@ -16,7 +16,7 @@ import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 
-public class CurrentMeetingPanel extends DockLayoutPanel {
+public class CurrentMeetingPanel extends DockLayoutPanel  implements RefreshEnabledPanel {
 
 	private final YManageServiceAsync yManageService;
 
@@ -183,6 +183,9 @@ public class CurrentMeetingPanel extends DockLayoutPanel {
 	}
 	
 	private void getMeetingStatus() {
+		
+		statusPanel.displayInfo("Getting current meeting information");
+		
 		yManageService.getCurrentMeeting(new AsyncCallback<MeetingAttendanceStatus>() {
 
 			@Override
@@ -233,5 +236,10 @@ public class CurrentMeetingPanel extends DockLayoutPanel {
 				groupsTabPanel.selectTab(0);
 			}
 		}
+	}
+
+	@Override
+	public void refreshData() {
+		this.getMeetingStatus();
 	}
 }

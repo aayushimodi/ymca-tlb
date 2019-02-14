@@ -3,11 +3,13 @@ package org.ymca.tvc.ymanage.client;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.*;
 
-public class BoardAdminPanel extends DockLayoutPanel {
+public class BoardAdminPanel extends DockLayoutPanel implements RefreshEnabledPanel {
 
 	private final YManageServiceAsync yManageService;
 	private static final String titleHTML = "<h2 align='center'>YMCA TVC Board Admin</h2>";
 
+	private TabLayoutPanel tabPanel;
+	private int refreshCallCount = 1;
 	
 	public BoardAdminPanel(YManageServiceAsync yManageService) {
 		super(Unit.EM);
@@ -27,7 +29,7 @@ public class BoardAdminPanel extends DockLayoutPanel {
 	}
 
 	private Widget createContentPanel() {
-		TabLayoutPanel tabPanel = new TabLayoutPanel(2, Unit.EM);
+		tabPanel = new TabLayoutPanel(2, Unit.EM);
 		tabPanel.add(new VolunteerManagementPanel(yManageService), "Volunteers");
 		tabPanel.add(new CurrentMeetingPanel(yManageService), "Current Meeting");
 		tabPanel.add(new PreviousMeetingsPanel(yManageService), "Previous Meetings");
@@ -36,5 +38,26 @@ public class BoardAdminPanel extends DockLayoutPanel {
 		tabPanel.addStyleName("tvc-center-align");
 		
 		return tabPanel;
+	}
+
+	@Override
+	public void refreshData() {
+		
+		if (refreshCallCount == 6) {
+			refreshCallCount = 1;
+		} else {
+			refreshCallCount++;
+			return;
+		}
+		
+		int index = tabPanel.getSelectedIndex();
+		if (index < 0) {
+			return;
+		}
+		
+		Widget w = tabPanel.getWidget(index);
+		if (w instanceof RefreshEnabledPanel) {		
+			((RefreshEnabledPanel)w).refreshData();
+		}
 	}
 }

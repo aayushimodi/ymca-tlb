@@ -32,16 +32,18 @@ public class StatusPanel extends Grid {
 	}
 	
 	void displayInfo(String message) {
-		this.statusLabel.setHTML(
-				//"<span style=\"color:black\">" + new Date().toString() + ": </span>" +
-				"<span style=\"color:black\">" + message + "</span>");
+		Logger logger = Logger.getLogger("");
+		logger.log(Level.INFO, message);
+		
+		this.statusLabel.setHTML("<span style=\"color:black\">" + message + "</span>");
 		
 	}
 	
 	void displayError(String message) {
-		this.statusLabel.setHTML(
-				//"<span style=\"color:black\">" + new Date().toString() + ": </span>" +
-				"<span style=\"color:red\">" + message + "</span>");
+		Logger logger = Logger.getLogger("");
+		logger.log(Level.SEVERE, message);
+		
+		this.statusLabel.setHTML("<span style=\"color:red\">" + message + "</span>");
 	}
 	
 	void displayError(Throwable caught) {
@@ -54,6 +56,5 @@ public class StatusPanel extends Grid {
 		} else {
 			this.displayError("Error in getting information from the server, try again later!");
 		}
-		
 	}
 }

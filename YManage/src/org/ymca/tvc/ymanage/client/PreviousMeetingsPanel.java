@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 
-public class PreviousMeetingsPanel extends DockLayoutPanel {
+public class PreviousMeetingsPanel extends DockLayoutPanel implements RefreshEnabledPanel {
 
 	private final YManageServiceAsync yManageService;
 	private StatusPanel statusPanel;
@@ -63,7 +63,7 @@ public class PreviousMeetingsPanel extends DockLayoutPanel {
 		});
 		
 		ScrollPanel s = new ScrollPanel(meetingIdListPanel);
-		s.setHeight("20em");
+		s.setHeight("100%");
 		s.setVerticalScrollPosition(0);
 	
 		return s;
@@ -94,7 +94,7 @@ public class PreviousMeetingsPanel extends DockLayoutPanel {
 		volunteerNameListPanel = new ListPanel(" Volunteer Name ");
 		volunteerNameListPanel.setStyleName("tvc-center-align");	
 		ScrollPanel s = new ScrollPanel(volunteerNameListPanel);
-		s.setHeight("20em");
+		s.setHeight("100%");
 		s.setVerticalScrollPosition(0);
 		v.add(s);
 		
@@ -126,6 +126,8 @@ public class PreviousMeetingsPanel extends DockLayoutPanel {
 	}
 	
 	private void getPastMeetingIds() {
+		statusPanel.displayInfo("Getting past meeting ids");
+		
 		yManageService.getPastMeetingIds(new AsyncCallback<ArrayList<MeetingId>>() {
 
 			@Override
@@ -137,6 +139,7 @@ public class PreviousMeetingsPanel extends DockLayoutPanel {
 			@Override
 			public void onSuccess(ArrayList<MeetingId> result) {
 				meetingIdListPanel.clearList();
+				volunteerNameListPanel.clearList();
 				for (MeetingId m : result) {
 					meetingIdListPanel.addToList(m);
 				}
@@ -165,5 +168,10 @@ public class PreviousMeetingsPanel extends DockLayoutPanel {
 				statusPanel.clearDisplay();
 			}
 		});
+	}
+
+	@Override
+	public void refreshData() {
+		this.getPastMeetingIds();
 	}
 }

@@ -29,7 +29,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 
-public class VolunteerManagementPanel extends DockLayoutPanel {
+public class VolunteerManagementPanel extends DockLayoutPanel implements RefreshEnabledPanel {
 
 	private final YManageServiceAsync yManageService;
 
@@ -203,7 +203,7 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 		attendanceTable.addStyleName("tvc-center-align");
 
 		ScrollPanel s = new ScrollPanel(attendanceTable);
-		s.setHeight("20em");
+		s.setHeight("100%");
 		s.setVerticalScrollPosition(0);
 
 		return s;
@@ -311,6 +311,7 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 	
 	private void getVolunteers() {
 		
+		statusPanel.displayInfo("Getting information about volunteers");
 		yManageService.getAllVolunteerInfo(new AsyncCallback<ArrayList<VolunteerInfo>>() {
 			
 			@Override
@@ -323,6 +324,8 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 			public void onSuccess(ArrayList<VolunteerInfo> result) {
 				List<VolunteerInfo> list = volunteersTableDataProvider.getList();
 				list.clear();
+				attendanceTableDataProvider.getList().clear();
+				
 				for(VolunteerInfo vInfo : result) {
 					list.add(vInfo);
 				}
@@ -330,5 +333,10 @@ public class VolunteerManagementPanel extends DockLayoutPanel {
 				statusPanel.clearDisplay();
 			}
 		});		
+	}
+
+	@Override
+	public void refreshData() {
+		this.getVolunteers();
 	}
 }

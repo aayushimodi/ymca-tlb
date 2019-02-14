@@ -11,13 +11,16 @@ import org.ymca.tvc.ymanage.shared.*;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.rpc.*;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.view.client.ListDataProvider;
 
-public class VolunteerCheckinPanel extends DockLayoutPanel {
+public class VolunteerCheckinPanel extends DockLayoutPanel implements RefreshEnabledPanel {
 
 	private static final String titleHTML = "<h2 align='center'>Teen Volunteer Corps Check In</h2>";
 
@@ -35,11 +38,12 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 		super(Unit.EM);
 		this.yManageService = yManageService;
 		this.createComponents();
-
+		this.setWidth("50%");
+		this.addStyleName("tvc-center-align");
 		this.getCheckinStatus();
 	}
 
-	void refreshData() {
+	public void refreshData() {
 		this.getCheckinStatus();
 	}
 
@@ -60,7 +64,7 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 		contentPanel.addNorth(createCheckinInputPanel(), 7);
 		contentPanel.addSouth(createStatusPanel(), 5);
 		contentPanel.add(createAttendanceTable());
-
+		
 		return contentPanel;
 	}
 
@@ -69,6 +73,17 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 		this.checkInButton = new Button();
 		this.checkInButton.setText("Check In");
 		this.checkInButton.setWidth("90%");
+		
+		this.nameBox.addKeyDownHandler(new KeyDownHandler() {
+			public void onKeyDown(KeyDownEvent event) {
+				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+					volunteerName = nameBox.getText();
+					checkInVolunteer();
+					nameBox.setText("");
+				}
+			}
+		});
+		
 		this.checkInButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				volunteerName = nameBox.getText();
@@ -91,7 +106,7 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 
 		table.setWidget(2, 0, this.nameBox);
 		table.setWidget(2, 1, this.checkInButton);
-		table.setWidth("50%");
+		table.setWidth("100%");
 		table.addStyleName("tvc-center-align");
 
 		return table;
@@ -100,6 +115,7 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 	private Widget createStatusPanel() {
 
 		this.statusPanel = new StatusPanel();
+		this.statusPanel.setWidth("100%");
 		return this.statusPanel;
 	}
 
@@ -124,15 +140,21 @@ public class VolunteerCheckinPanel extends DockLayoutPanel {
 		this.attendanceTableDataProvider = new ListDataProvider<AttendanceTableRow>();
 		this.attendanceTableDataProvider.addDataDisplay(table);
 
-		table.setWidth("50%");
+		
 		table.addStyleName("tvc-center-align");
-
-		return table;
+		table.setWidth("100%");
+		
+		ScrollPanel s = new ScrollPanel(table);
+		s.setHeight("100%");
+		s.setVerticalScrollPosition(0);
+		s.setWidth("100%");
+		
+		return s;
 	}
 
 	private void getCheckinStatus() {
 
-		statusPanel.displayInfo("Refreshing checking information ...");
+		statusPanel.displayInfo("Getting checkin status");
 
 		yManageService.getCurrentMeeting(new AsyncCallback<MeetingAttendanceStatus>() {
 

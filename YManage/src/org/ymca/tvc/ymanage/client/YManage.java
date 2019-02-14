@@ -10,13 +10,14 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class YManage implements EntryPoint {
 
-	private static final int REFRESH_INTERVAL = 5000; // 5 seconds
+	private static final int REFRESH_INTERVAL = 10000; // 5 seconds
 
 	private final YManageServiceAsync yManageService = GWT.create(YManageService.class);
 
@@ -77,6 +78,9 @@ public class YManage implements EntryPoint {
 	}
 
 	private void refreshData() {
-		this.checkinPanel.refreshData();
+		Widget w = RootLayoutPanel.get().getWidget(0);
+		if (w instanceof RefreshEnabledPanel) {		
+			((RefreshEnabledPanel)w).refreshData();
+		}
 	}
 }
