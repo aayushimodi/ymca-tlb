@@ -312,6 +312,7 @@ public class VolunteerManagementPanel extends DockLayoutPanel implements Refresh
 	private void getVolunteers() {
 		
 		statusPanel.displayInfo("Getting information about volunteers");
+		
 		yManageService.getAllVolunteerInfo(new AsyncCallback<ArrayList<VolunteerInfo>>() {
 			
 			@Override
@@ -322,17 +323,32 @@ public class VolunteerManagementPanel extends DockLayoutPanel implements Refresh
 
 			@Override
 			public void onSuccess(ArrayList<VolunteerInfo> result) {
-				List<VolunteerInfo> list = volunteersTableDataProvider.getList();
-				list.clear();
-				attendanceTableDataProvider.getList().clear();
 				
-				for(VolunteerInfo vInfo : result) {
-					list.add(vInfo);
-				}
-				
+				processVolunteerInfo(result);
 				statusPanel.clearDisplay();
 			}
 		});		
+	}
+	
+	private void processVolunteerInfo(ArrayList<VolunteerInfo> result) {
+		VolunteerInfo currentSelected = volunteersTableSelectionModel.getSelectedObject();
+		VolunteerInfo nextSelected = null;
+		
+		List<VolunteerInfo> list = volunteersTableDataProvider.getList();
+		list.clear();
+		attendanceTableDataProvider.getList().clear();
+		
+		for(VolunteerInfo vInfo : result) {
+			if ((currentSelected != null) && (currentSelected.getName().equals(vInfo.getName()))) {
+				nextSelected = vInfo;
+			}
+				
+			list.add(vInfo);
+		}
+		
+		if (nextSelected != null) {
+			volunteersTableSelectionModel.setSelected(nextSelected, true);
+		}
 	}
 
 	@Override

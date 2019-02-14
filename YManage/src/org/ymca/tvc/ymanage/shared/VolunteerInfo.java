@@ -2,7 +2,7 @@ package org.ymca.tvc.ymanage.shared;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class VolunteerInfo implements IsSerializable {
+public class VolunteerInfo implements IsSerializable, Comparable<VolunteerInfo> {
 	private String name;
 	private String email;
 	private String school;
@@ -47,4 +47,8 @@ public class VolunteerInfo implements IsSerializable {
 		this.age = age;
 	}
 
+	@Override
+	public int compareTo(VolunteerInfo other) {
+		return this.getName().compareTo(other.getName());
+	}
 }

@@ -84,7 +84,7 @@ public class PreviousMeetingsPanel extends DockLayoutPanel implements RefreshEna
 		meetingDateLabel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		v.add(meetingDateLabel);
 		
-		Label l3 = new Label(" ** Checkedin Volunteers ** ");
+		Label l3 = new Label(" ** Checked In Volunteers ** ");
 		l3.setWidth("100%");
 		l3.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		v.add(l3);
@@ -138,18 +138,41 @@ public class PreviousMeetingsPanel extends DockLayoutPanel implements RefreshEna
 
 			@Override
 			public void onSuccess(ArrayList<MeetingId> result) {
-				meetingIdListPanel.clearList();
-				volunteerNameListPanel.clearList();
-				for (MeetingId m : result) {
-					meetingIdListPanel.addToList(m);
-				}
-				
+				processPastMeetingIds(result);
 				statusPanel.clearDisplay();
 			}
 		});
 	}
 	
+	private void processPastMeetingIds(ArrayList<MeetingId> result) {
+		
+		MeetingId currentSelected = meetingIdSelectionModel.getSelectedObject();
+		MeetingId nextSelected = null;
+		
+		meetingIdListPanel.clearList();
+		volunteerNameListPanel.clearList();
+		
+		
+		for (MeetingId m : result) {
+		
+			if ((currentSelected != null) && (currentSelected.equals(m))) {
+				nextSelected = currentSelected;
+			}
+			
+			meetingIdListPanel.addToList(m);
+		}
+		
+		if (nextSelected != null) {
+			meetingIdSelectionModel.setSelected(nextSelected, true);
+			getPastCheckedInVolunteers(nextSelected);
+		}
+	}
+	
 	private void getPastCheckedInVolunteers(MeetingId pastMeetingId) {
+		
+		this.meetingIdLabel.setText(this.getMeetingIdLabel(pastMeetingId));
+		this.meetingDateLabel.setText(this.getMeetingDateLabel(pastMeetingId));
+		
 		yManageService.getCheckedInVolunteers(pastMeetingId, new AsyncCallback<ArrayList<String>>() {
 
 			@Override

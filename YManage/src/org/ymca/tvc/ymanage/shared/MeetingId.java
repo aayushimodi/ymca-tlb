@@ -5,7 +5,7 @@ import java.util.Objects;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class MeetingId implements IsSerializable {
+public class MeetingId implements IsSerializable, Comparable<MeetingId> {
 	
 	private long num;
 	private Date date;
@@ -49,5 +49,10 @@ public class MeetingId implements IsSerializable {
 		
 		return (Long.compare(this.num, m.num) == 0) && (this.date.equals(m.date));
 		
+	}
+	
+	@Override
+	public int compareTo(MeetingId other) {
+		return Long.compare(this.getNum(), other.getNum());
 	}
 }

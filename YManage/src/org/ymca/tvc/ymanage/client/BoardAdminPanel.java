@@ -43,7 +43,7 @@ public class BoardAdminPanel extends DockLayoutPanel implements RefreshEnabledPa
 	@Override
 	public void refreshData() {
 		
-		if (refreshCallCount == 6) {
+		if (refreshCallCount == 3) {
 			refreshCallCount = 1;
 		} else {
 			refreshCallCount++;
