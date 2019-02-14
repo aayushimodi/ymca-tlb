@@ -1,0 +1,2 @@
+serviceClass: org.ymca.tvc.ymanage.client.YManageService
+path: 6C4237CC8BFF3D0147AF6B71AA724B7D.gwt.rpc

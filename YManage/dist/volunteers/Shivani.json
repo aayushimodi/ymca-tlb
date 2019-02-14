@@ -1,0 +1,19 @@
+{
+  "info": {
+    "name": "Shivani"
+  },
+  "attendanceRecordMap": {
+    "1550122391949_Wed Feb 13 21:33:11 PST 2019": {
+      "meetingId": {
+        "num": 1550122391949,
+        "date": "Feb 13, 2019 9:33:11 PM"
+      }
+    },
+    "1550122391929_Wed Feb 13 21:33:11 PST 2019": {
+      "meetingId": {
+        "num": 1550122391929,
+        "date": "Feb 13, 2019 9:33:11 PM"
+      }
+    }
+  }
+}
